@@ -1,7 +1,10 @@
-import { sxzz } from "@sxzz/eslint-config";
+import { sxzz } from "@sxzz/eslint-config"
 export default sxzz(
     [
         // your custom config
+        {
+            "unicorn/prefer-add-event-listener": "off",
+        },
     ],
     {
         vue: true,
@@ -9,4 +12,4 @@ export default sxzz(
         prettier: false,
         sortKeys: true,
     },
-);
+)

@@ -23,11 +23,21 @@
 	"import utils": {
 		"scope": "javascript,typescript,vue",
 		"prefix": "imutils",
-		"body": "import * as utils from '@/utils';"
+		"body": "import * as utils from '@/libs/utils';"
 	},
 	"import libs": {
 		"scope": "javascript,typescript,vue",
 		"prefix": "imlibs",
 		"body": "import * as ${1:libName} from '@/libs/${1:libName}';"
+	},
+	"import rambdax": {
+		"scope": "javascript,typescript,vue",
+		"prefix": "imrambdax",
+		"body": "import * as R from 'rambdax';"
+	},
+	"import vueuse": {
+		"scope": "javascript,typescript,vue",
+		"prefix": "imvueuse",
+		"body": "import { ${1:watchThrottled} } from '@vueuse/core';"
 	},
 }

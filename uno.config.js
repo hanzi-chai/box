@@ -1,8 +1,13 @@
-import { defineConfig, presetUno, presetTypography } from 'unocss';
+import { defineConfig, presetUno, presetTypography, presetIcons } from "unocss"
 
 export default defineConfig({
     content: {
-        filesystem: ['./src/**/*.vue'],
+        filesystem: ["./src/**/*.vue"],
     },
-    presets: [presetUno(), presetTypography()],
-});
+    presets: [
+        presetUno(),
+        // presetTypography(),
+        presetIcons({
+            warn: true
+        })],
+})
