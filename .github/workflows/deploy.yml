@@ -24,9 +24,8 @@ jobs:
         with:
           node-version: 20
           #cache: pnpm
-      - run: |
-          pnpm install --prod --silent
-          pnpm run build
+      - run: pnpm install --prod --silent
+      - run: pnpm run build
       - uses: actions/configure-pages@v2
       - uses: actions/upload-pages-artifact@v3
         with:
