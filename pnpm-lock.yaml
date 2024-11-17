@@ -60,6 +60,9 @@ importers:
       '@sxzz/eslint-config':
         specifier: ^4.4.1
         version: 4.4.1(@types/eslint@9.6.1)(@typescript-eslint/eslint-plugin@8.14.0(@typescript-eslint/parser@8.14.0(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3))(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3))(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)
+      '@unocss/eslint-config':
+        specifier: ^0.64.1
+        version: 0.64.1(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)
       eslint:
         specifier: ^9.15.0
         version: 9.15.0(jiti@1.21.6)
@@ -858,6 +861,10 @@ packages:
 
   '@unocss/core@0.64.1':
     resolution: {integrity: sha512-D1ULd70a24/k6kGyHCIijbrrIn9UjFUEBg2R4xKX2/ViQb1k2MIgOs4VS20MkJX6kbZXqqm/zAFHzDhsQGIhBA==}
+
+  '@unocss/eslint-config@0.64.1':
+    resolution: {integrity: sha512-RXvgCNy6Uq5fjncAZxia4fWMshKB1cxpnWM23gdYomXpMFuDwQpVDzl49dhSNcof4qkglgrZGbplvekIJ0ljuQ==}
+    engines: {node: '>=14'}
 
   '@unocss/eslint-plugin@0.64.1':
     resolution: {integrity: sha512-5Q1dI+oKpG1o9CLWukriOFXJZu11VOEpqdx8DbroRzNoJYY4Fq6st132e3L9PcxJtq8o1sX6YnhoVjUKvasRzQ==}
@@ -3207,6 +3214,14 @@ snapshots:
       - supports-color
 
   '@unocss/core@0.64.1': {}
+
+  '@unocss/eslint-config@0.64.1(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)':
+    dependencies:
+      '@unocss/eslint-plugin': 0.64.1(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)
+    transitivePeerDependencies:
+      - eslint
+      - supports-color
+      - typescript
 
   '@unocss/eslint-plugin@0.64.1(eslint@9.15.0(jiti@1.21.6))(typescript@5.6.3)':
     dependencies:

@@ -12,7 +12,9 @@ import NotFoundPicture from "@/assets/undraw_page_not_found.svg"
             <img :src="NotFoundPicture" alt="Page Not Found" width="240" />
         </template>
         <template #extra>
-            <ElButton type="primary" @click="$router.push('/')">返回首页</ElButton>
+            <ElButton type="primary" @click="$router.push('/')">
+返回首页
+</ElButton>
         </template>
     </ElResult>
 </template>

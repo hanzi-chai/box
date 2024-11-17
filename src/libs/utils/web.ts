@@ -4,9 +4,9 @@ export function downloadFile<T extends Blob>(aFile: T, filename: string) {
     downloadElement.style.display = "none"
     downloadElement.href = href
     downloadElement.download = filename
-    document.body.appendChild(downloadElement)
+    document.body.append(downloadElement)
     downloadElement.click()
-    document.body.removeChild(downloadElement)
+    downloadElement.remove()
     URL.revokeObjectURL(href)
 }
 

@@ -9,7 +9,7 @@ export function totalFreq(usage: Record<string, number>) {
 /** 把频数映射转换成频率映射 */
 export function freqToRelativeFreq(map: Record<string, number>) {
     const total_freq = totalFreq(map)
-    const rs = { ...map } as Record<string, number>
+    const rs: Record<string, number> = { ...map }
     for (const [k, v] of Object.entries(map)) {
         rs[k] = v / total_freq
     }
@@ -37,7 +37,7 @@ export function objectKeysToSet(obj: object) {
 
 /** 取出对象里的元素 */
 export function pickObject<T extends object>(obj: T, keys: Iterable<string | number | symbol>): T {
-    const rs = {} as T
+    const rs: any = {}
     // @ts-expect-error magic
     for (const e of keys) rs[e] = obj[e]
     return rs

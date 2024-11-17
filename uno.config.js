@@ -1,4 +1,4 @@
-import { defineConfig, presetUno, presetTypography, presetIcons } from "unocss"
+import { defineConfig, presetIcons, presetTypography, presetUno } from "unocss"
 
 export default defineConfig({
     content: {
@@ -6,7 +6,7 @@ export default defineConfig({
     },
     presets: [
         presetUno(),
-        // presetTypography(),
+        presetTypography(),
         presetIcons({
             warn: true
         })],

@@ -1,9 +1,16 @@
 import { sxzz } from "@sxzz/eslint-config"
+import unocss from '@unocss/eslint-config/flat'
+
 export default sxzz(
     [
+        unocss,
         // your custom config
         {
-            "unicorn/prefer-add-event-listener": "off",
+            rules: {
+                "unicorn/prefer-add-event-listener": "off",
+                "vue/html-indent": "off",
+                "unicorn/no-new-array": "off",
+            }
         },
     ],
     {

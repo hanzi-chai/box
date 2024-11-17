@@ -5,7 +5,7 @@ async function customFetch<T>(url: string, handler: (f: Response) => Promise<T>)
 }
 
 export async function fetchText(url: string) {
-    return await customFetch(url, async (r) => r.text())
+    return await customFetch(url, (r) => r.text())
 }
 
 export async function fetchJson(url: string) {
@@ -25,16 +25,16 @@ export function jsonp(url: string, callbackName = "jsonp") {
         // @ts-ignore
         window[callbackName] = (data) => {
             resolve(data)
-            document.body.removeChild(script)
+            script.remove()
             // @ts-ignore
             window[callbackName] = undefined
         }
         script.onerror = (e) => {
             reject(e)
-            document.body.removeChild(script)
+            script.remove()
             // @ts-ignore
             window[callbackName] = undefined
         }
-        document.body.appendChild(script)
+        document.body.append(script)
     })
 }

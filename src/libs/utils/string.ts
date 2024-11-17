@@ -2,23 +2,23 @@
 /** 检查一个字符是不是空白字符 */
 export function isSpace(char: string) {
     return (
-        char === " " || char === "\r" || char === "\t" || char === "\n" || char === "\xA0"
+        char === " " || char === "\r" || char === "\t" || char === "\n" || char === "\u00A0"
     ) /* 无中断空格 */
 }
 
 /** 第一个非空白字符 */
 export function firstNonSpace(str: string) {
-    for (let i = 0; i < str.length; i++) {
-        if (!isSpace(str[i])) return str[i]
+    for (const element of str) {
+        if (!isSpace(element)) return element
     }
     return ""
 }
 
 /** 代替 String.trim，主要原理是避免正则表达式 */
 export function quickTrim(str: string) {
-    var a = 0
+    let a = 0
     const len = str.length
-    var b = len
+    let b = len
     for (let i = 0; i < len; i++) {
         if (!isSpace(str[i])) {
             a = i
@@ -38,7 +38,7 @@ export function quickTrim(str: string) {
 /** 代替 String.trimEnd */
 export function quickTrimEnd(str: string) {
     const len = str.length - 1
-    var b = len
+    let b = len
     for (let i = len; i > 0; i--) {
         if (!isSpace(str[i])) {
             b = i
@@ -50,7 +50,7 @@ export function quickTrimEnd(str: string) {
 
 /** 统计字符在字符串里出现的次数 */
 export function countChar(str: string, char: string) {
-    var c = 0
+    let c = 0
     for (let i = str.length - 1; i >= 0; i--) {
         if (str[i] === char) c++
     }
@@ -63,8 +63,8 @@ export function countChar(str: string, char: string) {
  */
 export function quickSplitByLength(str: string, splitter: string, len: number) {
     const result: string[] = new Array(len)
-    var start = 0
-    var found = 0
+    let start = 0
+    let found = 0
     for (let i = 0; i < len; i++) {
         found = str.indexOf(splitter, start)
         // 字符串里的splitter数量不够
@@ -110,57 +110,6 @@ export function quickEndsWith(str: string, suffix: string) {
 
 // #endregion
 
-// #region 生僻unicode字符
-/**
- * 不会引起生僻字切断地提取字符串的子段
- * @param str 被提取的字符串
- * @param [start] 从第几个汉字开始
- * @param [end] 必须是正数
- */
-export function sliceString(str: string, start = 0, end = -1): string {
-    if (start === 0) {
-        if (end === -1) return str
-        return [...str.slice(0, end * 2)].slice(0, end).join("")
-    }
-
-    const startRealIndex = reflectRealIndex(str, start)
-    if (end === -1) return str.slice(startRealIndex)
-    return [...str.slice(startRealIndex, end * 2)].slice(0, end).join("")
-}
-
-export function reflectRealIndex(str: string, utf32_index: number): number {
-    const strlen = str.length
-    const index_minus = utf32_index - 1
-    let count = 0
-    for (let i = 0; i < strlen; i++) {
-        const charCode = str.charCodeAt(i)
-        const is1word = (charCode < 0xd800) as unknown as number
-        count += is1word
-        if (count === index_minus) return i + 1
-    }
-    return -1
-}
-
-/** 统计字符串里汉字字符的数量 */
-export function countHanzi(src: string): number {
-    const re = /\p{Ideo}/gu
-    const m = src.match(re)
-    return m ? m.length : 0
-}
-
-/** 字符串只有一个字，会考虑unicode */
-export function isOneChar(wd: string) {
-    if (wd.length === 0) return false
-    let hasFirstChar = false
-    for (const _ of wd) {
-        if (!hasFirstChar) hasFirstChar = true
-        else return false
-    }
-    return true
-}
-
-// #endregion
-
 /** 删除文件名的后缀名 */
 export function removeFileNameExt(filename: string) {
     return filename.replace(/\.\w+$/, "")
@@ -173,10 +122,10 @@ export function removeFileNameExt(filename: string) {
  * 会过滤空行，会去除后空白字符
  */
 export function* genEachLineJump(src: string) {
-    var find = 0
-    var last = 0
-    var lineno = 0
-    var line = ""
+    let find = 0
+    let last = 0
+    let lineno = 0
+    let line = ""
     find = src.indexOf("\n")
     while (find !== -1) {
         ++lineno
@@ -233,7 +182,7 @@ export function* genEachLineJumpRe(src: string) {
 /** 解析TSV格式 */
 export function parseTsv(txt: string, width = 2) {
     const result: string[][] = []
-    for (const [line, _] of genEachLineJump(txt)) {
+    for (const [line] of genEachLineJump(txt)) {
         result.push(quickSplitByLength(line, "\t", width))
     }
     return result
@@ -244,7 +193,7 @@ export function parseTsv(txt: string, width = 2) {
 // #region 操作每一行
 /** 如果文件里某一行只有一个单词，则返回该行最后一个字符的索引号  */
 export function indexOfLineEquals(txt: string, keyWord: string) {
-    var result = -1
+    let result = -1
     eachlineQuick(txt, (line, index) => {
         if (quickTrim(line) === keyWord) {
             result = index + line.length
@@ -256,8 +205,8 @@ export function indexOfLineEquals(txt: string, keyWord: string) {
 
 /** 如果文件里某一行只有一个单词，则返回该行最后一个字符的索引号,会忽略大小写  */
 export function indexOfLineEqualsIgnoreCase(txt: string, keyWord: string) {
-    var result = -1
-    var keyWordLower = keyWord.toLowerCase()
+    let result = -1
+    const keyWordLower = keyWord.toLowerCase()
     eachlineQuick(txt, (line, index) => {
         if (quickTrim(line).toLowerCase() === keyWordLower) {
             result = index + line.length
@@ -269,7 +218,7 @@ export function indexOfLineEqualsIgnoreCase(txt: string, keyWord: string) {
 
 /** 如果文件里某一行匹配了正则表达式，则返回该行最后一个字符的索引号  */
 export function indexOfLineMatch(txt: string, pattern: RegExp) {
-    var result = -1
+    let result = -1
     eachlineQuick(txt, (line, index) => {
         if (pattern.test(line)) {
             result = index + line.length

@@ -1,3 +1,5 @@
+import { trunc } from "./math"
+
 export function formatFloat(f: number, fraction = 3, percent = false) {
     if (percent) return `${(f * 100).toFixed(fraction)}%`
     return f.toFixed(fraction)
@@ -16,7 +18,7 @@ export function formatTimeSpan(seconds: number): string {
     ] as const
     for (const m of magic) {
         if (tmpSeconds >= m[0]) {
-            result += `${(tmpSeconds / m[0]) | 0} ${m[1]} `
+            result += `${trunc(tmpSeconds / m[0])} ${m[1]} `
             tmpSeconds = tmpSeconds % m[0]
         }
     }
@@ -27,13 +29,13 @@ export function formatTimeSpan(seconds: number): string {
 /**
  * 把大数字转成汉字表达的几亿几万
  * 如果首尾是数字，会自动添加一个空格。
- * @param n 被转换的数字,是正整数
+ * @param positive_number 被转换的数字,是正整数
  * @param cas 转换的层级,1表示一个层级,如: 约7亿,约8万.2表示两个层级,如 约7亿800万.3表示完整取整
  * @param addYue 不精确的数字前面是否添加 约
  */
 export function formatYiWan(positive_number: number, cas = 1, addYue = true): string {
-    if (positive_number < 1) return `${positive_number}`
-    let tmp_number = positive_number | 0
+    if (positive_number < 1) return String(positive_number)
+    let tmp_number = trunc(positive_number)
     const coll: string[] = []
     const magic = [
         [1e8, "亿"],
@@ -42,7 +44,7 @@ export function formatYiWan(positive_number: number, cas = 1, addYue = true): st
     ] as const
     for (const [n, u] of magic) {
         if (tmp_number >= n) {
-            coll.push(` ${(tmp_number / n) | 0} ${u}`)
+            coll.push(` ${trunc(tmp_number / n)} ${u}`)
             tmp_number = tmp_number % n
         }
     }

@@ -1,20 +1,16 @@
 {
     "name": "schema-box",
+    "version": "1.0.0",
+    "private": true,
     "description": "分析制作汉字形码方案。",
     "productName": "形码盒子",
-    "version": "1.0.0",
-    "author": "yb6b <seetxx@qq.com>",
-    "license": "MPL-2.0",
-    "private": true,
     "type": "module",
+    "license": "MPL-2.0",
     "repository": {
         "type": "git",
         "url": "https://github.com/hanzi-chai/box"
     },
-    "engines": {
-        "node": ">=20",
-        "pnpm": ">=9"
-    },
+    "author": "yb6b <seetxx@qq.com>",
     "scripts": {
         "dev": "rsbuild dev",
         "build": "rsbuild build",
@@ -42,9 +38,14 @@
     },
     "devDependencies": {
         "@sxzz/eslint-config": "^4.4.1",
+        "@unocss/eslint-config": "^0.64.1",
         "eslint": "^9.15.0",
         "prettier": "^3.3.3",
         "typescript": "^5.6.3"
+    },
+    "engines": {
+        "node": ">=20",
+        "pnpm": ">=9"
     },
     "prettier": {
         "printWidth": 100,
