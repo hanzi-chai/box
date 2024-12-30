@@ -1,18 +1,9 @@
+import { routes } from './routes'
 import { createRouter, createWebHashHistory } from "vue-router"
 
 const router = createRouter({
     history: createWebHashHistory(import.meta.env.BASE_URL),
-    routes: [
-        {
-            path: "/",
-            name: "home",
-            component: () => import("@/views/home-page.vue"),
-        },
-        {
-            path: "/:catchAll(.*)*",
-            component: () => import("@/views/not-found.vue"),
-        },
-    ],
+    routes
 })
 
 export default router
