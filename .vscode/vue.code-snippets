@@ -54,10 +54,9 @@
 			" actions: {},",
 			"})",
 			"",
-			"if (import.meta.hot) {",
-			" import.meta.hot.accept(acceptHMRUpdate(use${TM_FILENAME_BASE/^(.*)$/${1:/pascalcase}/}Store, import.meta.hot))",
-			"}",
-			""
+			"if (import.meta.webpackHot) {",
+			" import.meta.webpackHot.accept(acceptHMRUpdate(use${TM_FILENAME_BASE/^(.*)$/${1:/pascalcase}/}Store, import.meta.webpackHot))",
+			"}"
 		],
 		"description": "Bootstrap the code needed for a Vue.js Pinia Options Store file"
 	}
