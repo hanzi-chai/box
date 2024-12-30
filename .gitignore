@@ -2,12 +2,13 @@
 .DS_Store
 *.local
 *.log*
+.eslintcache
 
 # Dist
 node_modules
 dist/
 
 _*
+!__snapshots__
 
 components.d.ts
-
