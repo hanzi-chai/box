@@ -1,15 +1,18 @@
-async function customFetch<T>(url: string, handler: (f: Response) => Promise<T>) {
-    const f = await fetch(url)
-    if (f.ok) return handler(f)
-    throw new Error(`无法下载${url}文件`)
+async function customFetch<T>(
+  url: string,
+  handler: (f: Response) => Promise<T>,
+) {
+  const f = await fetch(url)
+  if (f.ok) return handler(f)
+  throw new Error(`无法下载${url}文件`)
 }
 
 export async function fetchText(url: string) {
-    return await customFetch(url, (r) => r.text())
+  return await customFetch(url, (r) => r.text())
 }
 
 export async function fetchJson(url: string) {
-    return await customFetch(url, (r) => r.json())
+  return await customFetch(url, (r) => r.json())
 }
 
 /**
@@ -18,23 +21,23 @@ export async function fetchJson(url: string) {
  * @param callbackName 回调函数名，默认jsonp
  */
 export function jsonp(url: string, callbackName = "jsonp") {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement("script")
-        script.src = url
-        script.async = true
-        // @ts-ignore
-        window[callbackName] = (data) => {
-            resolve(data)
-            script.remove()
-            // @ts-ignore
-            window[callbackName] = undefined
-        }
-        script.onerror = (e) => {
-            reject(e)
-            script.remove()
-            // @ts-ignore
-            window[callbackName] = undefined
-        }
-        document.body.append(script)
-    })
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script")
+    script.src = url
+    script.async = true
+    // @ts-ignore
+    window[callbackName] = (data) => {
+      resolve(data)
+      script.remove()
+      // @ts-ignore
+      window[callbackName] = undefined
+    }
+    script.onerror = (e) => {
+      reject(e)
+      script.remove()
+      // @ts-ignore
+      window[callbackName] = undefined
+    }
+    document.body.append(script)
+  })
 }

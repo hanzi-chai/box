@@ -1,0 +1,229 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load rime happy 1`] = `
+{
+  "cache": {
+    "rimeObj": {
+      "columns": [
+        "text",
+        "code",
+        "stem",
+      ],
+      "encoder": {
+        "exclude_patterns": [
+          "^x.*$",
+          "^z.*$",
+        ],
+        "rules": [
+          {
+            "formula": "AaAzBaBbBz",
+            "length_equal": 2,
+          },
+          {
+            "formula": "AaAzBaBzCz",
+            "length_equal": 3,
+          },
+          {
+            "formula": "AaBzCaYzZz",
+            "length_in_range": [
+              4,
+              10,
+            ],
+          },
+        ],
+        "tail_anchor": "'",
+      },
+      "max_phrase_length": 7,
+      "min_phrase_weight": 100,
+      "name": "cangjie5",
+      "sort": "by_weight",
+      "use_preset_vocabulary": true,
+      "version": "0.18",
+    },
+  },
+  "fileName": "",
+  "header": 
+"# encoding: utf-8
+#
+# 單字碼表《五倉世紀》來自 www.chinesecj.com
+#
+# 又：
+# 倉頡五代構詞碼碼表
+# 由惜緣兄製作
+# 佛振修訂於 2012-04-08
+#
+# License: GPL
+#
+# 說明：
+# 詞彙編碼中，單字的取碼有幾種情況：
+# 取首碼、取尾碼、取首尾二碼、取首、次、尾三碼。
+# 輔助字形中的單字，在詞彙中直接用倉頡字母而不拆開；
+# 包含結構的單字，被包含部分的編碼位於'符號之後，可據此取得尾碼。
+#
+
+---
+name: "cangjie5"
+version: "0.18"
+sort: by_weight
+use_preset_vocabulary: true
+max_phrase_length: 7
+min_phrase_weight: 100
+columns:
+  - text
+  - code
+  - stem
+encoder:
+  exclude_patterns:
+    - '^x.*$'
+    - '^z.*$'
+  rules:
+    - length_equal: 2
+      formula: "AaAzBaBbBz"
+    - length_equal: 3
+      formula: "AaAzBaBzCz"
+    - length_in_range: [4, 10]
+      formula: "AaBzCaYzZz"
+  tail_anchor: "'"
+..."
+,
+  "items": [
+    {
+      "cd": "a",
+      "ln": 46,
+      "meta": {},
+      "wd": "日",
+    },
+    {
+      "cd": "a",
+      "ln": 47,
+      "meta": {},
+      "wd": "曰",
+    },
+    {
+      "cd": "aa",
+      "ln": 48,
+      "meta": {},
+      "wd": "昌",
+    },
+    {
+      "cd": "aa",
+      "ln": 49,
+      "meta": {},
+      "wd": "昍",
+    },
+    {
+      "cd": "adj",
+      "ln": 50,
+      "meta": {},
+      "wd": "昩",
+    },
+    {
+      "cd": "admq",
+      "ln": 51,
+      "meta": {},
+      "wd": "暐",
+    },
+    {
+      "cd": "adwf",
+      "ln": 52,
+      "meta": {
+        "stem": "adw'f",
+      },
+      "wd": "暕",
+    },
+  ],
+  "name": "cangjie5",
+  "plat": "rime",
+  "txt": 
+"# encoding: utf-8
+#
+# 單字碼表《五倉世紀》來自 www.chinesecj.com
+#
+# 又：
+# 倉頡五代構詞碼碼表
+# 由惜緣兄製作
+# 佛振修訂於 2012-04-08
+#
+# License: GPL
+#
+# 說明：
+# 詞彙編碼中，單字的取碼有幾種情況：
+# 取首碼、取尾碼、取首尾二碼、取首、次、尾三碼。
+# 輔助字形中的單字，在詞彙中直接用倉頡字母而不拆開；
+# 包含結構的單字，被包含部分的編碼位於'符號之後，可據此取得尾碼。
+#
+
+---
+name: "cangjie5"
+version: "0.18"
+sort: by_weight
+use_preset_vocabulary: true
+max_phrase_length: 7
+min_phrase_weight: 100
+columns:
+  - text
+  - code
+  - stem
+encoder:
+  exclude_patterns:
+    - '^x.*$'
+    - '^z.*$'
+  rules:
+    - length_equal: 2
+      formula: "AaAzBaBbBz"
+    - length_equal: 3
+      formula: "AaAzBaBzCz"
+    - length_in_range: [4, 10]
+      formula: "AaBzCaYzZz"
+  tail_anchor: "'"
+...
+
+日	a
+曰	a
+昌	aa
+昍	aa
+昩	adj
+暐	admq
+暕	adwf	adw'f
+"
+,
+  "version": "0.18",
+}
+`;
+
+exports[`load rime check dict errors 1`] = `
+{
+  "cache": {
+    "rimeObj": {
+      "name": "stroke",
+      "version": 2.3,
+    },
+  },
+  "fileName": "",
+  "header": 
+"---
+name: stroke
+version: 2.3
+..."
+,
+  "items": [
+    {
+      "cd": "123",
+      "ln": 7,
+      "meta": {},
+      "wd": "abc",
+    },
+  ],
+  "name": "stroke",
+  "plat": "rime",
+  "txt": 
+"---
+name: stroke
+version: 2.3
+...
+abc	123
+"
+,
+  "version": 2.3,
+}
+`;

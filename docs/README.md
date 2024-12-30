@@ -32,6 +32,8 @@
 
 本项目使用了 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 自动导入组件：在 `./src/components` 目录下的组件会自动导入，ElementPlus 的组件也是自动引入的，在 `*.vue` 文件里直接使用就行。
 
+源码里的 `*.gen.js` 是生成相关数据的脚本。执行 `bun run *.gen.js` 。不过计算结果已经提交到仓库，所以不用管。
+
 形码盒子要在 file 协议下运行，要留意：
 
 - 不能用 fetch 或 XMLHttpRequest，而是用 JSONP 动态载入

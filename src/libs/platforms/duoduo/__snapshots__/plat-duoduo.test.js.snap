@@ -1,0 +1,64 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`base load 1`] = `
+{
+  "cache": {},
+  "fileName": "xima",
+  "header": 
+"---config@码表分类=主码-次显码表
+"
+,
+  "items": [
+    {
+      "cd": "aae",
+      "ln": 3,
+      "wd": "砹",
+    },
+    {
+      "cd": "aaem",
+      "ln": 4,
+      "wd": "砹",
+    },
+    {
+      "cd": "aaff",
+      "ln": 5,
+      "meta": {
+        "fix": true,
+      },
+      "wd": "安安分分",
+    },
+    {
+      "cd": "aagx",
+      "ln": 6,
+      "wd": "暗暗高兴",
+    },
+    {
+      "cd": "aajj",
+      "ln": 7,
+      "wd": "安安静静",
+    },
+  ],
+  "name": "xima",
+  "plat": "duoduo",
+  "txt": 
+"---config@码表分类=主码-次显码表
+
+砹	aae
+砹	aaem
+安安分分	aaff#固
+暗暗高兴	aagx
+安安静静	aajj"
+,
+}
+`;
+
+exports[`dump should work 1`] = `
+"---config@码表分类=主码-次显码表
+
+砹	aae
+砹	aaem
+安安分分	aaff
+暗暗高兴	aagx
+安安静静	aajj
+"
+`;

@@ -1,26 +1,28 @@
 {
     "compilerOptions": {
-        "lib": ["DOM", "ESNext"],
-        "target": "ESNext",
-        "noEmit": true,
-        "skipLibCheck": true,
-        "jsxImportSource": "vue",
-        "useDefineForClassFields": true,
-
-        /* modules */
-        "module": "ESNext",
-        "isolatedModules": true,
-        "resolveJsonModule": true,
-        "moduleResolution": "Bundler",
-        "allowImportingTsExtensions": true,
-
-        /* type checking */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "paths": {
-            "@/*": ["./src/*"]
-        }
+      "target": "ESNext",
+      "jsxImportSource": "vue",
+      "lib": ["DOM", "ESNext"],
+      "useDefineForClassFields": true,
+  
+      /* modules */
+      "module": "ESNext",
+      "moduleResolution": "Bundler",
+      "paths": {
+        "@/*": ["./src/*"]
+      },
+      "resolveJsonModule": true,
+      "allowImportingTsExtensions": true,
+      "allowJs": true,
+  
+      /* type checking */
+      "strict": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noEmit": true,
+      "isolatedModules": true,
+      "skipLibCheck": true
     },
     "include": ["src"]
-}
+  }
+  

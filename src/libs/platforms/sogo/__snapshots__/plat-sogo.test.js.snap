@@ -1,0 +1,39 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`detectPlatFormat common 1`] = `
+{
+  "ahead": true,
+  "split": " ",
+}
+`;
+
+exports[`load common 1`] = `
+{
+  "cache": {},
+  "fileName": "demo.txt",
+  "header": "",
+  "items": [
+    {
+      "cd": "abc",
+      "ln": 1,
+      "wd": "是",
+    },
+    {
+      "cd": "abc",
+      "ln": 1,
+      "wd": "不是",
+    },
+    {
+      "cd": "edg",
+      "ln": 2,
+      "wd": "可以吗？",
+    },
+  ],
+  "name": "demo",
+  "plat": "sogo",
+  "txt": 
+"abc 是 不是
+edg 可以吗？"
+,
+}
+`;

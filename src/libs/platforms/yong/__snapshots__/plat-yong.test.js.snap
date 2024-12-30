@@ -1,0 +1,71 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`load common 1`] = `
+{
+  "cache": {
+    "yongObj": {
+      "dicts": "mb/1.txt mb/2.txt",
+      "key": "abcdefghijklmnopqrstuvwxyz;",
+      "len": "4",
+      "name": "码表",
+      "wildcard": "z",
+    },
+  },
+  "fileName": "",
+  "header": 
+"name=码表
+key=abcdefghijklmnopqrstuvwxyz;
+len=4
+dicts=mb/1.txt mb/2.txt
+wildcard=z"
+,
+  "items": [
+    {
+      "cd": "a",
+      "ln": 7,
+      "wd": "工",
+    },
+    {
+      "cd": "aa",
+      "ln": 8,
+      "wd": "式",
+    },
+    {
+      "cd": "aaa",
+      "ln": 9,
+      "wd": "工",
+    },
+    {
+      "cd": "aaaa",
+      "ln": 10,
+      "wd": "工",
+    },
+    {
+      "cd": "aaaa",
+      "ln": 10,
+      "wd": "允许多个",
+    },
+    {
+      "cd": "aaaa",
+      "ln": 10,
+      "wd": "允许多行",
+    },
+  ],
+  "maxCodeLen": 4,
+  "name": "码表",
+  "plat": "yong",
+  "txt": 
+"name=码表
+key=abcdefghijklmnopqrstuvwxyz;
+len=4
+dicts=mb/1.txt mb/2.txt
+wildcard=z
+[data]
+a 工
+aa 式
+aaa 工
+aaaa 工 允许多个 允许多行
+"
+,
+}
+`;
