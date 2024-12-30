@@ -5,13 +5,31 @@ import App from "./App.vue"
 
 import router from "./router"
 import "./assets/pollyfill"
+import "@fontsource/monaspace-neon"
 import "./index.css"
+
+const app = createApp(App)
+
+//#region vue directives
+
+// v-focus 指令
+app.directive("focus", {
+    mounted(el) {
+        el?.focus?.()
+    },
+})
+
+//#endregion
+
+//#region vue plugins
 
 const pinia = createPinia()
 const installPersistedStatePlugin = createPersistedStatePlugin()
 pinia.use((context) => installPersistedStatePlugin(context))
-
-const app = createApp(App)
 app.use(pinia)
+
 app.use(router)
+
+//#endregion
+
 app.mount("#root")
