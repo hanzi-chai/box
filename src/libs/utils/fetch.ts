@@ -3,16 +3,17 @@ async function customFetch<T>(
   handler: (f: Response) => Promise<T>,
 ) {
   const f = await fetch(url)
-  if (f.ok) return handler(f)
+  if (f.ok)
+    return handler(f)
   throw new Error(`无法下载${url}文件`)
 }
 
 export async function fetchText(url: string) {
-  return await customFetch(url, (r) => r.text())
+  return await customFetch(url, r => r.text())
 }
 
 export async function fetchJson(url: string) {
-  return await customFetch(url, (r) => r.json())
+  return await customFetch(url, r => r.json())
 }
 
 /**
@@ -25,17 +26,17 @@ export function jsonp(url: string, callbackName = "jsonp") {
     const script = document.createElement("script")
     script.src = url
     script.async = true
-    // @ts-ignore
+    // @ts-expect-error 添加全局回调函数
     window[callbackName] = (data) => {
       resolve(data)
       script.remove()
-      // @ts-ignore
+      // @ts-expect-error 全局回调函数，类型难写
       window[callbackName] = undefined
     }
     script.onerror = (e) => {
       reject(e)
       script.remove()
-      // @ts-ignore
+      // @ts-expect-error 全局回调函数，类型难写
       window[callbackName] = undefined
     }
     document.body.append(script)

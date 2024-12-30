@@ -10,26 +10,26 @@ import "./index.css"
 
 const app = createApp(App)
 
-//#region vue directives
+// #region vue directives
 
 // v-focus 指令
 app.directive("focus", {
-    mounted(el) {
-        el?.focus?.()
-    },
+  mounted(el) {
+    el?.focus?.()
+  },
 })
 
-//#endregion
+// #endregion
 
-//#region vue plugins
+// #region vue plugins
 
 const pinia = createPinia()
 const installPersistedStatePlugin = createPersistedStatePlugin()
-pinia.use((context) => installPersistedStatePlugin(context))
+pinia.use(context => installPersistedStatePlugin(context))
 app.use(pinia)
 
 app.use(router)
 
-//#endregion
+// #endregion
 
 app.mount("#root")

@@ -17,7 +17,8 @@ export class RawFile {
       this.size = src.length
       return
     }
-    if (src instanceof File && !name) this.name = src.name
+    if (src instanceof File && !name)
+      this.name = src.name
     this.blob = src
     this.size = src.size
   }
@@ -28,7 +29,8 @@ export class RawFile {
 
   #encode?: string
   get encoding() {
-    if (!this.#encode) this.#encode = ""
+    if (!this.#encode)
+      this.#encode = ""
 
     return this.#encode
   }
@@ -41,7 +43,8 @@ export class RawFile {
   /** 根据blob数据，推测文件编码 */
   async detectEncoding() {
     const enc = (await DetectFileEncoding(this.blob)).encoding as string
-    if (!enc) throw new TypeError(`无法识别文件${this.name}的编码。`)
+    if (!enc)
+      throw new TypeError(`无法识别文件${this.name}的编码。`)
     this.encoding = enc
     return enc
   }
@@ -73,7 +76,8 @@ export class RawFile {
     // 没有缓存则生成一个新的
     if (!this.txt) {
       // 没有编码则重新检测
-      if (!this.#encode) await this.detectEncoding()
+      if (!this.#encode)
+        await this.detectEncoding()
       await this.readBlob()
     }
     return this.txt!

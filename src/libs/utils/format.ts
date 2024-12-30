@@ -1,7 +1,8 @@
 import { trunc } from "./math"
 
 export function formatFloat(f: number, fraction = 3, percent = false) {
-  if (percent) return `${(f * 100).toFixed(fraction)}%`
+  if (percent)
+    return `${(f * 100).toFixed(fraction)}%`
   return f.toFixed(fraction)
 }
 
@@ -38,7 +39,8 @@ export function formatYiWan(
   cas = 1,
   addYue = true,
 ): string {
-  if (positive_number < 1) return String(positive_number)
+  if (positive_number < 1)
+    return String(positive_number)
   let tmp_number = trunc(positive_number)
   const coll: string[] = []
   const magic = [
@@ -53,8 +55,10 @@ export function formatYiWan(
     }
   }
   let res = coll.slice(0, cas).join("")
-  if (addYue && cas < coll.length) res = `约${res}`
-  if (cas >= coll.length) res += " "
+  if (addYue && cas < coll.length)
+    res = `约${res}`
+  if (cas >= coll.length)
+    res += " "
   return res
 }
 

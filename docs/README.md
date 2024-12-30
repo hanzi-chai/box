@@ -30,7 +30,7 @@
 
 ## 代码规范
 
-建议使用 vscode 编写，安装 Biome 插件，保存文件时会自动格式化，编辑代码时会有 lint 提示。你可以用 `pnpm lint` 命令检查代码是否符合规范。
+建议使用 vscode 编写，安装 Eslint 插件，保存文件时会自动格式化，编辑代码时会有 lint 提示。你可以用 `pnpm lint` 命令检查代码是否符合规范。
 
 项目遵守 [Vue.js style guide](https://vuejs.org/style-guide/)。目录名、文件名用全小写的 kebab-case。
 

@@ -27,7 +27,8 @@ export class CollisionCounter {
     const oldCollision = this.#usedCodes.get(code)
     const newCollision = oldCollision ? oldCollision + 1 : 1
     this.#usedCodes.set(code, newCollision)
-    if (newCollision > this.max) this.max = newCollision
+    if (newCollision > this.max)
+      this.max = newCollision
     return newCollision
   }
 
@@ -39,9 +40,11 @@ export class CollisionCounter {
   public delete(code: string) {
     const oldCollision = this.#usedCodes.get(code)
 
-    if (!oldCollision) return 0
+    if (!oldCollision)
+      return 0
 
-    if (oldCollision === 1) this.#usedCodes.delete(code)
+    if (oldCollision === 1)
+      this.#usedCodes.delete(code)
     else this.#usedCodes.set(code, oldCollision - 1)
     this.#remax()
     return oldCollision - 1
@@ -51,7 +54,8 @@ export class CollisionCounter {
   #remax() {
     let m = 0
     for (const c of this.#usedCodes.values()) {
-      if (c > m) m = c
+      if (c > m)
+        m = c
     }
     this.max = m
   }
@@ -67,7 +71,8 @@ export function getJisuCollision(code: string): {
   collision: number
 } {
   // 空格是一重
-  if (code.at(-1) === "_") return { code, collision: 1 }
+  if (code.at(-1) === "_")
+    return { code, collision: 1 }
   // 数字结尾的，有选重结果
   const pattern = /\d+$/
   const regexResult = pattern.exec(code)

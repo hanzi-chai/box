@@ -29,36 +29,45 @@ export const defaultComboMagics = (() => {
   return result
 })()
 
-export const getDefaultComboMagic = (keys: string, index: number) =>
-  defaultComboMagics[(keys.charCodeAt(index) << 7) | keys.charCodeAt(index + 1)]
+export function getDefaultComboMagic(keys: string, index: number) {
+  return defaultComboMagics[(keys.charCodeAt(index) << 7) | keys.charCodeAt(index + 1)]
+}
 
-export const magicPinkyDisturb = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.PinkyDisturb
+export function magicPinkyDisturb(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.PinkyDisturb
+}
 
-export const magicSingleSpan = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.SingleSpan
+export function magicSingleSpan(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.SingleSpan
+}
 
-export const magicLongFingersDisturb = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.LongFingersDisturb
+export function magicLongFingersDisturb(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.LongFingersDisturb
+}
 
-export const magicMultiSpan = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.MultiSpan
+export function magicMultiSpan(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.MultiSpan
+}
 
-export const magicDoubleHit = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.DoubleHit
+export function magicDoubleHit(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.DoubleHit
+}
 
-export const magicDifferentHands = (magicNumber: number) =>
-  (magicNumber & 7) === ComboType.DifferentHands
+export function magicDifferentHands(magicNumber: number) {
+  return (magicNumber & 7) === ComboType.DifferentHands
+}
 
 /** 注意此处的当量是乘以10后的整数。 */
 export const magicEquivalentTen = (magicNumber: number) => magicNumber >> 3
 
-export const magicComboType = (magicNumber: number): ComboType =>
-  magicNumber & 7
+export function magicComboType(magicNumber: number): ComboType {
+  return magicNumber & 7
+}
 /**
  * 简单地计算按键组合的当量，已经除过10了，
- * 要提前处理一个按键的编码的当量 */
-export const calcEq = (keys: string) => {
+ * 要提前处理一个按键的编码的当量
+ */
+export function calcEq(keys: string) {
   let rs = 0
   for (let i = 1; i < keys.length; i++) {
     rs += magicEquivalentTen(getDefaultComboMagic(keys, i - 1))
@@ -66,5 +75,6 @@ export const calcEq = (keys: string) => {
   return rs / 10
 }
 
-export const getComboMagicFromAscii = (first: number, second: number) =>
-  defaultComboMagics[(first << 7) | second]
+export function getComboMagicFromAscii(first: number, second: number) {
+  return defaultComboMagics[(first << 7) | second]
+}

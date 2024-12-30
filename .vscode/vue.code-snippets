@@ -59,5 +59,10 @@
 			"}"
 		],
 		"description": "Bootstrap the code needed for a Vue.js Pinia Options Store file"
+	},
+	"await import with webpack prefetch":{
+		"scope": "javascript,typescript,vue",
+		"prefix": "awaitimport",
+		"body": "await import(/* webpackPrefetch: true */ '${1:moduleName}')"
 	}
 }

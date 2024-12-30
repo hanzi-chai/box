@@ -20,7 +20,8 @@ const _cacheStore = new Map()
  * 缓存一个值
  */
 export function Cache(name: string, value: any) {
-  if (!_cacheStore.has(name)) _cacheStore.set(name, value)
+  if (!_cacheStore.has(name))
+    _cacheStore.set(name, value)
   return value
 }
 

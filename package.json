@@ -1,58 +1,57 @@
 {
-    "name": "schema-box",
-    "version": "1.0.0",
-    "private": true,
-    "description": "分析制作汉字形码方案。",
-    "productName": "形码盒子",
-    "type": "module",
-    "license": "MPL-2.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/hanzi-chai/box"
-    },
-    "author": "yb6b <seetxx@qq.com>",
-    "scripts": {
-        "dev": "rsbuild dev",
-        "build": "rsbuild build",
-        "preview": "rsbuild preview",
-        "fmt": "biome format --write",
-        "lint": "biome lint --write --staged --unsafe ./src",
-        "test": "bun test --watch"
-    },
-    "dependencies": {
-        "@element-plus/icons-vue": "^2.3.1",
-        "@fontsource/monaspace-neon": "^5.1.0",
-        "@iconify-json/ri": "^1.2.5",
-        "@rsbuild/core": "1.1.13",
-        "@rsbuild/plugin-vue": "^1.0.5",
-        "@unocss/postcss": "^0.65.3",
-        "@vueuse/core": "^12.2.0",
-        "detect-file-encoding-and-language": "^2.4.0",
-        "element-plus": "^2.9.1",
-        "js-yaml": "^4.1.0",
-        "nanoid": "^5.0.9",
-        "pinia": "^2.3.0",
-        "pinia-plugin-persistedstate-2": "^2.0.28",
-        "rambdax": "^11.3.0",
-        "unocss": "^0.65.3",
-        "unplugin-vue-components": "^0.28.0",
-        "vue": "^3.5.13",
-        "vue-router": "^4.5.0"
-    },
-    "devDependencies": {
-        "@biomejs/biome": "1.9.4",
-        "@types/bun": "^1.1.14",
-        "@types/js-yaml": "^4.0.9",
-        "typescript": "^5.7.2"
-    },
-    "engines": {
-        "node": ">=20",
-        "pnpm": ">=9"
-    },
-    "prettier": {
-        "printWidth": 100,
-        "semi": false,
-        "endOfLine": "crlf",
-        "tabWidth": 4
-    }
+  "name": "schema-box",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "分析制作汉字形码方案。",
+  "productName": "形码盒子",
+  "author": "yb6b <seetxx@qq.com>",
+  "license": "MPL-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanzi-chai/box"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "scripts": {
+    "dev": "rsbuild dev",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview",
+    "lint": "eslint ./src --fix",
+    "test": "bun test --watch"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@fontsource/monaspace-neon": "^5.1.0",
+    "@iconify-json/ri": "^1.2.5",
+    "@rsbuild/core": "1.1.13",
+    "@rsbuild/plugin-vue": "^1.0.5",
+    "@unocss/postcss": "^0.65.3",
+    "@vueuse/core": "^12.2.0",
+    "detect-file-encoding-and-language": "^2.4.0",
+    "element-plus": "^2.9.1",
+    "js-yaml": "^4.1.0",
+    "nanoid": "^5.0.9",
+    "pinia": "^2.3.0",
+    "pinia-plugin-persistedstate-2": "^2.0.28",
+    "rambdax": "^11.3.0",
+    "unocss": "^0.65.3",
+    "unplugin-vue-components": "^0.28.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^3.12.1",
+    "@types/bun": "^1.1.14",
+    "@types/js-yaml": "^4.0.9",
+    "@unocss/eslint-plugin": "^0.65.2",
+    "eslint": "^9.17.0",
+    "typescript": "^5.7.2"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false
+  }
 }

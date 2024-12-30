@@ -6,8 +6,7 @@
  */
 import type { PlatformIds } from "../platforms"
 import type { MbItem } from "./mabiao-item"
-import { CollisionCounter } from './collision-counter'
-
+import { CollisionCounter } from "./collision-counter"
 
 // #region 码表类型定义
 
@@ -86,12 +85,14 @@ export function createEmptyTextMabiao(plat: PlatformIds): TextMabiao {
 }
 
 export function getCodeToWordsDict(mb: Mabiao): CodeToItemsMap {
-  if (mb.cache.CTI) return mb.cache.CTI
+  if (mb.cache.CTI)
+    return mb.cache.CTI
   const result: CodeToItemsMap = new Map()
   for (const eachItem of mb.items) {
     const c = eachItem.cd
     const o = result.get(c)
-    if (o) o.push(eachItem)
+    if (o)
+      o.push(eachItem)
     else result.set(c, [eachItem])
   }
   mb.cache.CTI = result
@@ -99,29 +100,34 @@ export function getCodeToWordsDict(mb: Mabiao): CodeToItemsMap {
 }
 
 export function getMaxCodeLen(mb: Mabiao) {
-  if (mb.maxCodeLen) return mb.maxCodeLen
+  if (mb.maxCodeLen)
+    return mb.maxCodeLen
   let r = 0
   for (const { cd } of mb.items) {
     const codeLen = cd.length
-    if (codeLen > r) r = codeLen
+    if (codeLen > r)
+      r = codeLen
   }
   mb.maxCodeLen = r
   return r
 }
 
 export function getMaxWordsLen(mb: Mabiao) {
-  if (mb.maxCodeLen) return mb.maxCodeLen
+  if (mb.maxCodeLen)
+    return mb.maxCodeLen
   let r = 0
   for (const { wd } of mb.items) {
     const l = [...wd].length
-    if (l > r) r = l
+    if (l > r)
+      r = l
   }
   mb.maxCodeLen = r
   return r
 }
 
 export function getKeysSet(mb: Mabiao) {
-  if (mb.keysSet) return mb.keysSet
+  if (mb.keysSet)
+    return mb.keysSet
   const result = new Set<string>()
   for (const { cd } of mb.items) {
     for (const c of cd) result.add(c)
@@ -132,14 +138,16 @@ export function getKeysSet(mb: Mabiao) {
 
 /** 获取选重键，如果没有设置过，则自动判断 */
 export function getSelectKeys(mb: Mabiao) {
-  if (mb.selectKeys) return mb.selectKeys
+  if (mb.selectKeys)
+    return mb.selectKeys
   let selectKeys = " ;'456789"
   const selectKeys2 = " 23456789"
   if (mb.keysSet) {
     if (mb.keysSet.has(";")) {
       selectKeys = selectKeys2
     }
-  } else if (mabiaoHasKey(mb, ";")) {
+  }
+  else if (mabiaoHasKey(mb, ";")) {
     selectKeys = selectKeys2
   }
   mb.selectKeys = selectKeys
@@ -160,12 +168,15 @@ function mabiaoHasKey(mb: Mabiao, key: string): boolean {
 
 /** 只允许平台相同时，才能获取码表头数据 */
 export function getMabiaoHeader(mb: Mabiao, plat: PlatformIds) {
-  if (mb.plat === plat && mb.header) return `${mb.header}\n`
+  if (mb.plat === plat && mb.header)
+    return `${mb.header}\n`
   return ""
 }
 
-/** 重头计算选重数，如果码表里已经计算过了，则跳过。
- * 如果需要强行运行，先删除 `mb.cache.collisionCounter` */
+/**
+ * 重头计算选重数，如果码表里已经计算过了，则跳过。
+ * 如果需要强行运行，先删除 `mb.cache.collisionCounter`
+ */
 export function calcCollision(mb: Mabiao): number {
   if (mb.cache.collisionCounter)
     return mb.cache.collisionCounter.max

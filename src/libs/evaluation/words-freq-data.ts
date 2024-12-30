@@ -1,4 +1,7 @@
+/* eslint-disable  style/no-tabs */
+
 import { parseFreqTsv } from "./share"
+
 export default (() => {
   return parseFreqTsv(`我们	41787606
 自己	34157718

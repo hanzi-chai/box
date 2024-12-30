@@ -15,5 +15,5 @@ export async function writeStringToClipboard(str: string) {
 }
 
 export function sleep(milliseconds = 0) {
-  return new Promise((resolve) => setTimeout(resolve, milliseconds))
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

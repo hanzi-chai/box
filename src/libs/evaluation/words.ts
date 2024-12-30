@@ -1,14 +1,11 @@
-import * as feel from "@/libs/feeling"
-import { validateCodesInEquivalent, type Mabiao } from "@/libs/schema"
-
-import { freqCountToFreq } from "@/libs/utils"
-import { CollisionCounter } from "../simulator/collision-counter"
-import * as share from "./share"
 import type { FreqMatrix, HanziMap } from "./share"
 import type { EvaluateLineWords, EvaluateWordsItem } from "./types"
 
-/** 默认的词频表 */
-export const presetWordsFreq = (await import("./words-freq-data")).default
+import * as feel from "@/libs/feeling"
+import { type Mabiao, validateCodesInEquivalent } from "@/libs/schema"
+import { freqCountToFreq } from "@/libs/utils"
+import { CollisionCounter } from "../schema/collision-counter"
+import * as share from "./share"
 
 /** 测评一个码表的组词性能 */
 export async function quickEvaluateWords(mb: Mabiao, tsv?: string) {
@@ -16,8 +13,10 @@ export async function quickEvaluateWords(mb: Mabiao, tsv?: string) {
   let freqTsv: FreqMatrix
   if (tsv) {
     freqTsv = share.parseFreqTsv(tsv).slice(0, 60000)
-    if (freqTsv.length < 60000) throw new Error("词频数据不足60000行")
-  } else {
+    if (freqTsv.length < 60000)
+      throw new Error("词频数据不足60000行")
+  }
+  else {
     freqTsv = (await import(/* webpackPrefetch: true */ "./words-freq-data"))
       .default
   }
@@ -97,7 +96,8 @@ function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
       for (let k = 0; k < cdLen; k++) {
         if (!validateCodesInEquivalent(cd[k])) {
           tmpEvaluateItem.overKey += 1
-        } else {
+        }
+        else {
           // 各按键使用率 写在区间的数据上
           usageHelpArray[cd.charCodeAt(k)] += freq
         }
@@ -167,29 +167,38 @@ function makeCodeUnderWubi(hanzimap: HanziMap, words: string): string {
   // 2 字词
   if (wordsArray.length === 2) {
     const cd1 = hanzimap.get(wordsArray[0])
-    if (!cd1) return ""
+    if (!cd1)
+      return ""
     const cd2 = hanzimap.get(wordsArray[1])
-    if (!cd2) return ""
+    if (!cd2)
+      return ""
     return cd1.item.cd.slice(0, 2) + cd2.item.cd.slice(0, 2)
   }
   // 3 字词
   if (wordsArray.length === 3) {
     const cd1 = hanzimap.get(wordsArray[0])
-    if (!cd1) return ""
+    if (!cd1)
+      return ""
     const cd2 = hanzimap.get(wordsArray[1])
-    if (!cd2) return ""
+    if (!cd2)
+      return ""
     const cd3 = hanzimap.get(wordsArray[2])
-    if (!cd3) return ""
+    if (!cd3)
+      return ""
     return cd1.item.cd.slice(0, 2) + cd2.item.cd[0] + cd3.item.cd[0]
   }
   // 多字词
   const cd1 = hanzimap.get(wordsArray[0])
-  if (!cd1) return ""
+  if (!cd1)
+    return ""
   const cd2 = hanzimap.get(wordsArray[1])
-  if (!cd2) return ""
+  if (!cd2)
+    return ""
   const cd3 = hanzimap.get(wordsArray[2])
-  if (!cd3) return ""
+  if (!cd3)
+    return ""
   const cd4 = hanzimap.get(wordsArray.at(-1)!)
-  if (!cd4) return ""
+  if (!cd4)
+    return ""
   return cd1.item.cd[0] + cd2.item.cd[0] + cd3.item.cd[0] + cd4.item.cd[0]
 }

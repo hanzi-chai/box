@@ -1,10 +1,10 @@
 /** 字频统计和词频统计公用的方法 */
 
-import * as utils from "@/libs/utils"
 import type { Mabiao, MbItem } from "@/libs/schema"
-
-import { CollisionCounter } from "../simulator/collision-counter"
 import type { EvaluateLineHanzi, EvaluateLineWords } from "./types"
+
+import * as utils from "@/libs/utils"
+import { CollisionCounter } from "../simulator/collision-counter"
 
 /** 合并多个测评结果中的usage */
 export function getTotalUsage(
@@ -25,7 +25,7 @@ export type FreqMatrix = [string, number][]
 
 export function parseFreqTsv(tsv: string): FreqMatrix {
   const matrix = utils.parseTsv(tsv)
-  const r: FreqMatrix = Array(matrix.length)
+  const r: FreqMatrix = Array.from({ length: matrix.length })
   for (let i = 0; i < matrix.length; i++) {
     const element = matrix[i]
     const freq = Number.parseInt(element[1])
@@ -36,7 +36,7 @@ export function parseFreqTsv(tsv: string): FreqMatrix {
   return r
 }
 
-export type HanziMap = Map<string, { item: MbItem; collision: number }>
+export type HanziMap = Map<string, { item: MbItem, collision: number }>
 /**
  * 提取码表中的单字数据
  * @param mb 从哪个码表里提取单字数据
@@ -56,7 +56,8 @@ export function singleHanziMapFromMb(
     const wd = item.wd
     const cd = item.cd
     // 过滤不必要的汉字
-    if (wd.length > 1 || !hanziSet.has(wd)) continue
+    if (wd.length > 1 || !hanziSet.has(wd))
+      continue
 
     const oldItem = rs.get(wd)
     // 没有数据时, 添加数据
@@ -86,7 +87,8 @@ export function mergeEvaluationLines<
   T extends EvaluateLineHanzi | EvaluateLineWords,
 >(items: T[]): T {
   const len = items.length
-  if (len === 1) return items[0]
+  if (len === 1)
+    return items[0]
   const rs = utils.mergeDeepMore(items)
   rs.start = items[0].start
   rs.end = items[len - 1].end
@@ -99,7 +101,7 @@ export function isNormal<T>(evaluteItem: T) {
   return evaluteItem.overKey === 0
 }
 
-export const createUsageHelpArray = (): number[] => Array(128).fill(0)
+export const createUsageHelpArray = (): number[] => Array.from({ length: 128 }).fill(0)
 
 /** 数组形式的 */
 export function usageHelpArrayToUsage(helpArray: number[]) {

@@ -2,18 +2,19 @@
 /** 检查一个字符是不是空白字符 */
 export function isSpace(char: string) {
   return (
-    char === " " ||
-    char === "\r" ||
-    char === "\t" ||
-    char === "\n" ||
-    char === "\u00A0"
+    char === " "
+    || char === "\r"
+    || char === "\t"
+    || char === "\n"
+    || char === "\u00A0"
   ) /* 无中断空格 */
 }
 
 /** 第一个非空白字符 */
 export function firstNonSpace(str: string) {
   for (const element of str) {
-    if (!isSpace(element)) return element
+    if (!isSpace(element))
+      return element
   }
   return ""
 }
@@ -29,7 +30,8 @@ export function quickTrim(str: string) {
       break
     }
   }
-  if (a === len - 1) return ""
+  if (a === len - 1)
+    return ""
   for (let i = len - 1; i > a; i--) {
     if (!isSpace(str[i])) {
       b = i
@@ -56,7 +58,8 @@ export function quickTrimEnd(str: string) {
 export function countChar(str: string, char: string) {
   let c = 0
   for (let i = str.length - 1; i >= 0; i--) {
-    if (str[i] === char) c++
+    if (str[i] === char)
+      c++
   }
   return c
 }
@@ -66,7 +69,7 @@ export function countChar(str: string, char: string) {
  * 只能以单个字符作为分隔符
  */
 export function quickSplitByLength(str: string, splitter: string, len: number) {
-  const result: string[] = new Array(len)
+  const result: string[] = Array(len)
   let start = 0
   let found = 0
   for (let i = 0; i < len; i++) {
@@ -134,12 +137,14 @@ export function* genEachLineJump(src: string) {
   while (find !== -1) {
     ++lineno
     line = quickTrimEnd(src.slice(last, find))
-    if (line) yield [line, lineno] as const
+    if (line)
+      yield [line, lineno] as const
     last = find + 1
     find = src.indexOf("\n", last)
   }
   line = quickTrimEnd(src.slice(last))
-  if (line) yield [src.slice(last), ++lineno] as const
+  if (line)
+    yield [src.slice(last), ++lineno] as const
 }
 
 /**
@@ -154,7 +159,8 @@ export function eachlineQuick(
   let last = 0
   find = src.indexOf("\n")
   while (find !== -1) {
-    if (cb(src.slice(last, find), last)) return
+    if (cb(src.slice(last, find), last))
+      return
     last = find + 1
     find = src.indexOf("\n", last)
   }

@@ -1,13 +1,13 @@
-import * as R from "rambdax"
+import type { TextPlatform } from "../types"
 import { checkCodes, getCodeToWordsDict, validateCodes } from "@/libs/schema"
 import * as utils from "@/libs/utils"
+import * as R from "rambdax"
+
 import {
   createEmptyTextMabiao,
   type Mabiao,
   type TextMabiao,
 } from "../../schema"
-
-import type { TextPlatform } from "../types"
 
 // #region 类型定义
 
@@ -44,7 +44,8 @@ export const platSogo = {
 
 function load(raw: string, title?: string, ctx?: SogoFormat): MbSogo {
   const format = ctx || detectPlatFormat(raw)
-  if (!format) throw new TypeError("fail: load platSogo - no format")
+  if (!format)
+    throw new TypeError("fail: load platSogo - no format")
   const result = createEmptyTextMabiao("sogo") as MbSogo
 
   result.txt = raw
@@ -62,7 +63,8 @@ function load(raw: string, title?: string, ctx?: SogoFormat): MbSogo {
     if (format.ahead) {
       const cd = checkCodes(wordsSplit[0])
       for (const wd of wordsSplit.slice(1)) {
-        if (wd === "") continue
+        if (wd === "")
+          continue
         result.items.push({ wd, cd, ln: lineno })
       }
     }
@@ -70,7 +72,8 @@ function load(raw: string, title?: string, ctx?: SogoFormat): MbSogo {
     else {
       const cd = wordsSplit.pop()!
       for (const wd of wordsSplit) {
-        if (wd === "") continue
+        if (wd === "")
+          continue
         result.items.push({ wd, cd, ln: lineno })
       }
     }
@@ -96,7 +99,8 @@ function dump(mb: Mabiao, ctx?: dumpCtx): string {
 
   if ("format" in mb) {
     format = mb.format as SogoFormat
-  } else {
+  }
+  else {
     if (!(ctx?.format)) {
       throw new TypeError("fail: dump platSogo - no format")
     }
@@ -109,7 +113,8 @@ function dump(mb: Mabiao, ctx?: dumpCtx): string {
   // 每行只有一条词
   if (!fold) {
     for (const { wd, cd } of mb.items) {
-      if (format.ahead) res += `${cd}${format.split}${wd}\n`
+      if (format.ahead)
+        res += `${cd}${format.split}${wd}\n`
       else res += `${wd}${format.split}${cd}\n`
     }
     return res
@@ -117,8 +122,9 @@ function dump(mb: Mabiao, ctx?: dumpCtx): string {
 
   // 每行多词
   for (const [codes, items] of getCodeToWordsDict(mb)) {
-    const words = R.map((v) => v.wd, items).join(format.split)
-    if (format.ahead) res += `${codes}${format.split}${words}\n`
+    const words = R.map(v => v.wd, items).join(format.split)
+    if (format.ahead)
+      res += `${codes}${format.split}${words}\n`
     else res += `${words}${format.split}${codes}\n`
   }
   return res
@@ -137,20 +143,25 @@ export function detectPlatFormat(text: string) {
         return null
       // 只有 space
       const f = detectFormatInLine(line, spaceindex, " ")
-      if (f) return f
-    } else if (spaceindex === -1) {
+      if (f)
+        return f
+    }
+    else if (spaceindex === -1) {
       // 只有 tab
       const f = detectFormatInLine(line, tabindex, "\t")
-      if (f) return f
+      if (f)
+        return f
     }
     // tab 和 空格都有
     else {
       // 尝试tab
       let f = detectFormatInLine(line, tabindex, "\t")
-      if (f) return f
+      if (f)
+        return f
       // 尝试空格
       f = detectFormatInLine(line, spaceindex, " ")
-      if (f) return f
+      if (f)
+        return f
     }
   }
   // 整个码表都推断不出，只可能是纯英文码表了，没有办法
@@ -166,9 +177,11 @@ function detectFormatInLine(
   const lastIndex = line.lastIndexOf(space)
   const codeAhead = validateCodes(line.slice(0, firstIndex))
   const lastIsCode = validateCodes(line.slice(lastIndex + 1))
-  if (codeAhead && !lastIsCode) return { split: space, ahead: true }
+  if (codeAhead && !lastIsCode)
+    return { split: space, ahead: true }
 
-  if (!codeAhead && lastIsCode) return { split: space, ahead: false }
+  if (!codeAhead && lastIsCode)
+    return { split: space, ahead: false }
   return null
 }
 

@@ -7,12 +7,14 @@ import * as R from "rambdax"
  */
 export function sliceString(str: string, start = 0, end = -1): string {
   if (start === 0) {
-    if (end === -1) return str
+    if (end === -1)
+      return str
     return [...str.slice(0, end * 2)].slice(0, end).join("")
   }
 
   const startRealIndex = reflectRealIndex(str, start)
-  if (end === -1) return str.slice(startRealIndex)
+  if (end === -1)
+    return str.slice(startRealIndex)
   return [...str.slice(startRealIndex, end * 2)].slice(0, end).join("")
 }
 
@@ -22,9 +24,10 @@ export function reflectRealIndex(str: string, utf32_index: number): number {
   let count = 0
   for (let i = 0; i < strlen; i++) {
     const charCode = str.charCodeAt(i)
-    const is1word = (charCode < 0xd800) as unknown as number
+    const is1word = (charCode < 0xD800) as unknown as number
     count += is1word
-    if (count === index_minus) return i + 1
+    if (count === index_minus)
+      return i + 1
   }
   return -1
 }
@@ -38,9 +41,10 @@ export function countHanzi(src: string): number {
 
 /** 字符串只有一个字，会考虑unicode */
 export function isOneChar(wd: string) {
-  if (wd.length === 0) return false
+  if (wd.length === 0)
+    return false
   const charCode = wd.charCodeAt(0)
-  return charCode < 0xd800 ? wd.length === 1 : wd.length === 2
+  return charCode < 0xD800 ? wd.length === 1 : wd.length === 2
 }
 
 /** 把字符串切分成视觉上独立的符号, 使用时注意 [...segment('👨‍👨‍👧')] */
@@ -53,18 +57,16 @@ export function segment(sentence: string) {
 
 /** 把字符串切分成视觉上独立的符号, 使用时注意 [...segmentToArray('👨‍👨‍👧')] */
 export function segmentToArray(sentence: string) {
-  return R.mapArray((s) => s.segment, [...segment(sentence)])
+  return R.mapArray(s => s.segment, [...segment(sentence)])
 }
-
 
 /** 字符串指定索引位置的字符 */
 export function charAt(str: string, index: number) {
   return String.fromCodePoint(str.codePointAt(index)!)
 }
 
-
 /** 字符串第一个字符 */
 export function firstCharacter(str: string) {
   const i = str.charCodeAt(0)
-  return i < 0xd800 ? str[0] : str.slice(0, 2)
+  return i < 0xD800 ? str[0] : str.slice(0, 2)
 }

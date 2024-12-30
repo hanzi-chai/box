@@ -1,3 +1,4 @@
+import type { DuoduoMeta } from "./mabiao-meta"
 import * as utils from "@/libs/utils"
 import {
   createEmptyTextMabiao,
@@ -9,7 +10,6 @@ import {
 } from "../types"
 import logo from "./duoduo.jpg"
 import * as meta from "./mabiao-meta"
-import type { DuoduoMeta } from "./mabiao-meta"
 
 // #region 类型
 export interface MbItemDuoduo extends MbItem {
@@ -72,7 +72,8 @@ function load(raw: string, title?: string) {
       }
 
       result.items.push(tmpItem)
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof Error) {
         throw new FormatError(`词条编码错误：${error.message}`, lineno)
       }
@@ -86,15 +87,19 @@ function load(raw: string, title?: string) {
 function validate(raw: string): boolean {
   const text = utils.quickTrim(raw)
   // Match table file header.
-  if (text.startsWith("---config@")) return true
+  if (text.startsWith("---config@"))
+    return true
   for (const [line, lineno] of utils.genEachLineJump(text)) {
-    if (lineno > 80) return true
+    if (lineno > 80)
+      return true
 
     const tabCounts = utils.countChar(line, "\t")
-    if (tabCounts !== 1) return false
+    if (tabCounts !== 1)
+      return false
 
     const lineSplit = utils.quickSplit2(line, "\t")
-    if (!meta.validateDuoduoCodes(lineSplit[1])) return false
+    if (!meta.validateDuoduoCodes(lineSplit[1]))
+      return false
   }
   return true
 }

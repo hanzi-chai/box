@@ -1,9 +1,9 @@
 /** rime会占用 mb.cache.rimeObj */
 
-import { load as loadYaml } from "js-yaml"
-
-import * as R from "rambdax"
 import * as utils from "@/libs/utils"
+
+import { load as loadYaml } from "js-yaml"
+import * as R from "rambdax"
 import {
   createEmptyTextMabiao,
   FormatError,
@@ -57,7 +57,8 @@ function validate(raw: string, title?: string) {
 
   for (const [line] of utils.genEachLineJump(raw)) {
     // 跳过注释行
-    if (utils.firstNonSpace(line) === "#") continue
+    if (utils.firstNonSpace(line) === "#")
+      continue
     if (line === "---") {
       hasMinuses = true
       continue
@@ -86,7 +87,8 @@ function dump(mb: Mabiao) {
 
   for (const item of mb.items) {
     for (let i = 0; i < columnsLen; i++) {
-      if (i) txt += "\t"
+      if (i)
+        txt += "\t"
       const key = columns[i]
       switch (key) {
         case "text":
@@ -134,7 +136,8 @@ function load(raw: string, title?: string) {
   let headerObj: any
   try {
     headerObj = loadHeaderObj(header, title)
-  } catch (error) {
+  }
+  catch (error) {
     // 解析yaml格式出错
     if (error instanceof Error) {
       throw new FormatError(`解析Yaml码表头出错：${error.message}`, 2)
@@ -154,15 +157,18 @@ function load(raw: string, title?: string) {
     cd: "",
     ln: 0,
   }
-  if (columns.includes("weight")) mbItemTmpl.freq = 0
-  if (hasExtraColumns(columns)) mbItemTmpl.meta = undefined
+  if (columns.includes("weight"))
+    mbItemTmpl.freq = 0
+  if (hasExtraColumns(columns))
+    mbItemTmpl.meta = undefined
 
   const dictStartLineno = utils.countChar(raw.slice(0, end), "\n")
 
   for (const [line, ln] of utils.genEachLineJump(raw.slice(end + 3))) {
     const lineno = ln + dictStartLineno + 2
     // 过滤注释行
-    if (utils.firstNonSpace(line) === "#") continue
+    if (utils.firstNonSpace(line) === "#")
+      continue
     const tmpMbItem: MbItemRime = { ...mbItemTmpl }
     tmpMbItem.meta = {}
     tmpMbItem.ln = lineno

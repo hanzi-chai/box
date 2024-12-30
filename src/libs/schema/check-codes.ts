@@ -16,10 +16,12 @@ export function makeValidateCodes(validKeys: string) {
       const charCode = code.charCodeAt(i)
 
       // 非ASCII字符
-      if (charCode > 127) return false
+      if (charCode > 127)
+        return false
 
       // 不属于目标的按键
-      if (!keysArray[charCode]) return false
+      if (!keysArray[charCode])
+        return false
     }
     return true
   }
@@ -60,6 +62,7 @@ export const validateCodesInEquivalent = makeValidateCodes(KEYS_EQ)
  * @returns 编码的参数
  */
 export function checkCodes(code: string) {
-  if (!validateCodes(code)) throw new TypeError(`${code} 中含有不合规的按键。`)
+  if (!validateCodes(code))
+    throw new TypeError(`${code} 中含有不合规的按键。`)
   return code
 }

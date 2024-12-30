@@ -28,7 +28,8 @@ export function useAbortable(opt: AbortableProps) {
     ac,
     async () => {
       while (!opt.end()) {
-        if (ac.signal.aborted) return opt.onAbort?.()
+        if (ac.signal.aborted)
+          return opt.onAbort?.()
         await nextTick()
         opt.each()
       }

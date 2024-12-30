@@ -1,30 +1,32 @@
 /** 根据字频表数据测评, 即科学形码测评系统 */
 
-import * as R from "rambdax"
+import type { FreqMatrix, HanziMap } from "./share"
+import type { EvaluateHanziItem, EvaluateLineHanzi } from "./types"
 import * as feel from "@/libs/feeling"
 import {
   getKeysSet,
-  validateCodesInEquivalent,
   type Mabiao,
+  validateCodesInEquivalent,
 } from "@/libs/schema"
 import * as utils from "@/libs/utils"
+import * as R from "rambdax"
 import { fingerLoad } from "../feeling/finger-load"
 import * as share from "./share"
-import type { FreqMatrix, HanziMap } from "./share"
-import type { EvaluateHanziItem, EvaluateLineHanzi } from "./types"
 
 export async function quickEvaluateHanzi(mb: Mabiao, tsv?: string) {
   let freqTsv: FreqMatrix
   if (tsv) {
     freqTsv = share.parseFreqTsv(tsv).slice(0, 6000)
-    if (freqTsv.length < 6000) throw new Error("字频数据不足6000行")
-  } else {
+    if (freqTsv.length < 6000)
+      throw new Error("字频数据不足6000行")
+  }
+  else {
     freqTsv = (await import(/* webpackPrefetch: true */ "./hanzi-freq-data"))
       .default
   }
   const singleHanziMap = share.singleHanziMapFromMb(
     mb,
-    R.mapArray((v) => v[0], freqTsv),
+    R.mapArray(v => v[0], freqTsv),
   )
   const evaluate_result = evaluateSections(freqTsv, singleHanziMap, mb)
 
@@ -113,7 +115,8 @@ export function evaluateSections(
         // 过滤超标键位
         if (!validateCodesInEquivalent(cd[k])) {
           tmpEvaluateItem.overKey += 1
-        } else {
+        }
+        else {
           // 手指使用量
           usageHelpArray[cd.charCodeAt(k)] += freq
         }

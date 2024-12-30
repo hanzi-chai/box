@@ -51,7 +51,8 @@ function mergeObjectToBase(base: object, other: object) {
     if (Array.isArray(v)) {
       // @ts-expect-error magic
       base[k] = base[k].concat(v)
-    } else if (typeof v === "number") {
+    }
+    else if (typeof v === "number") {
       if (k in base)
         // @ts-expect-error magic
         base[k] += v
@@ -69,10 +70,12 @@ function mergeObjectToBase(base: object, other: object) {
 /** 合并多个对象，对象里如果有数组，则会push，如果有数字，则会累加 */
 export function mergeDeepMore<T extends object>(obj_arr: T[]): T {
   const len = obj_arr.length
-  if (len === 0) throw new Error(`参数${obj_arr}为空列表`)
+  if (len === 0)
+    throw new Error(`参数${obj_arr}为空列表`)
 
   const rs = structuredClone(obj_arr[0])
-  if (len === 1) return rs
+  if (len === 1)
+    return rs
 
   for (let i = 1; i < len; i++) {
     mergeObjectToBase(rs, obj_arr[i])

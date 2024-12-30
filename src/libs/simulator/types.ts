@@ -1,18 +1,18 @@
-import type { MbItem } from '../schema'
+import type { MbItem } from "../schema"
 
 export type SegCollection = SegValue[]
 export enum SegKind {
-    Mabiao = 0,
-    CnPunc = 1,
-    EnPunc = 2,
-    UniPunc = 3,
-    Lack = 4,
+  Mabiao = 0,
+  CnPunc = 1,
+  EnPunc = 2,
+  UniPunc = 3,
+  Lack = 4,
 }
 
 export type SegValue =
-    | SegValueMabiao
-    | SegValueLack
-    | SegValuePunc
+  | SegValueMabiao
+  | SegValueLack
+  | SegValuePunc
 
 export type SegValuePunc = SegValueEnPunc | SegValueUniPunc | SegValueCnPunc
 

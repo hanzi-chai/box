@@ -1,3 +1,3 @@
 export * from "./hanzi"
-export * from "./words"
 export * from "./share"
+export * from "./words"

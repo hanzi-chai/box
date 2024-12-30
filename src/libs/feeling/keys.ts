@@ -43,7 +43,7 @@ export const defaultKeyMagics = (() => {
     result[KEYS_NO_SHIFT.charCodeAt(i)] = dataArray[i]
     result[KEYS_SHIFT.charCodeAt(i)] = dataArray[i]
   }
-  result[KEYS_UNO.charCodeAt(0) /*空格键*/] = dataArray[len]
+  result[KEYS_UNO.charCodeAt(0) /* 空格键 */] = dataArray[len]
 
   // 要留意几个特殊的按键，不包括空格键，比如Tab键、Enter键等
   // 这里直接放到 uint8Array 中的头几个数字里。
@@ -54,10 +54,11 @@ export const defaultKeyMagics = (() => {
 })()
 
 /** 不考虑特殊功能键 */
-export const getDefaultKeyMagicSimple = (aKey: string) =>
-  defaultKeyMagics[aKey.charCodeAt(0)]
+export function getDefaultKeyMagicSimple(aKey: string) {
+  return defaultKeyMagics[aKey.charCodeAt(0)]
+}
 
-export const getDefaultKeyMagic = (aKey: string) => {
+export function getDefaultKeyMagic(aKey: string) {
   switch (aKey) {
     case KeyUno.Shift:
       return defaultKeyMagics[0]

@@ -1,4 +1,6 @@
+/* eslint-disable  style/no-tabs */
 import { parseFreqTsv } from "./share"
+
 export default (() => {
   const freqData = `的	7922684
 一	3050722
