@@ -26,9 +26,11 @@
 
 ## 代码规范
 
-建议使用 vscode 编写，安装 eslint 扩展，会按照 `@sxzz/eslint-config` 规则检查代码。再安装 prettier 插件，会自动格式化代码。
+建议使用 vscode 编写，安装 Biome 插件，保存文件时会自动格式化，编辑代码时会有 lint 提示。你可以用 `pnpm lint` 命令检查代码是否符合规范。
 
 项目遵守 [Vue.js style guide](https://vuejs.org/style-guide/)。目录名、文件名用全小写的 kebab-case。
+
+本项目使用了 [unplugin-vue-components](https://github.com/unplugin/unplugin-vue-components) 自动导入组件：在 `./src/components` 目录下的组件会自动导入，ElementPlus 的组件也是自动引入的，在 `*.vue` 文件里直接使用就行。
 
 形码盒子要在 file 协议下运行，要留意：
 
@@ -55,7 +57,7 @@
 
 `./src/libs` 下的是 TDD 开发的，先用 vitest 写单测。
 
-而端到端测试不写了，改为手动尝试。
+而端到端测试不写了，改为手动尝试。请留意 `*.spec.md` 的文档，提醒要测试的内容。
 
 ### 术语
 

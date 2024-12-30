@@ -18,7 +18,8 @@
 3. 用 `pnpm dev` 可 HRM 预览网页
 4. `pnpm build` 编译网站。`./dist`目录下就是编译产物，可以在 `file://` 协议下运行
 
-小技巧：如果只要编译网站，而不用 HRM 预览，可以用 `pnpm i -P` 命令，它会跳过 `devDependencies` 的安装。
+> [!TIP]
+> 如果只要编译网站，而不用 HRM 预览，可以用 `pnpm i -P` 命令，它会跳过 `devDependencies` 的安装。
 
 ## 参与贡献
 
