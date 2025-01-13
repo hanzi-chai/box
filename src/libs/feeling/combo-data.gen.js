@@ -2149,12 +2149,17 @@ const keysUnderFinger = [
 const singleSpan = keysUnderFinger.map((v) => {
   const make3 = (v) => [v[0] + v[1], v[1] + v[2], v[2] + v[3]]
   if (v.length === 4) return make3(v)
-  return [
+  const r = [
     v,
     v.slice(4),
     v[0] + v[5] + v[2] + v[7],
     v[4] + v[1] + v[6] + v[3],
   ].map(make3)
+  // 45 rt fg vb 也算小跨排
+  for (let i = 0; i < 4; i++) {
+    r.push(v[i] + v[i + 4])
+  }
+  return r
 }) // '1q qa az 2w ws sx 3e ed dc 4r rf fv 5t tg gb 5r tf gv 4t rg fb 6y yh hn 7u uj jm 7y uh jn 6u yj hm 8i ik k, 9o ol l. 0p p; ;/ -[ [\' =]'
 singleSpan.push([
   "-[",
