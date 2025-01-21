@@ -1,12 +1,13 @@
 import type { TextPlatform } from "../types"
 import { validateCodes } from "@/libs/schema"
 import * as utils from "@/libs/utils"
-
 import {
   createEmptyTextMabiao,
   type Mabiao,
   type TextMabiao,
 } from "../../schema"
+
+import logo from "./soubai.png"
 
 // #region 类型定义
 
@@ -20,7 +21,7 @@ export interface MbSogo extends TextMabiao {
 export const platSogo = {
   id: "sogo",
   nameEn: "sougou/baidu",
-  nameZh: "手机搜狗百度",
+  nameZh: "手机搜狗/百度",
   desc: `可用于移动端的搜狗输入法、百度输入法。
 本项目采用规则如下：
 1. UTF-8编码的txt文件
@@ -31,6 +32,7 @@ export const platSogo = {
   validate,
   load,
   dump,
+  logo,
 } as const satisfies TextPlatform
 
 // #endregion

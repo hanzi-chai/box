@@ -1,15 +1,17 @@
 import type { TextPlatform } from "./types"
 import * as Schema from "../schema"
 import { platDuoduo } from "./duoduo"
+import { platJisu } from "./jisu"
 import { platRime } from "./rime"
 import { platSogo } from "./sogo"
 import { platYong } from "./yong"
 
 /** 顺序会影响自动推断的优先级 */
 export const allTextPlatforms = [
-  platDuoduo,
   platRime,
   platYong,
+  platDuoduo,
+  platJisu,
   platSogo,
 ] as const
 
