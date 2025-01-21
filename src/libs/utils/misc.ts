@@ -32,15 +32,15 @@ export function functionBody(fn: any) {
 }
 
 /** 使用 requestIdleCallback 实现的可中断的调度器，构建时传入一个生成器 */
-export class AbortableScheduler {
-  #generator: () => Generator<any, any, any>
+export class AbortableScheduler<T> {
+  #generator: () => Generator<any, T, any>
   /** 如果暂停了，会记录当前的 Generator 状态 */
-  #runningGenerator: Generator<any, any, any> | null = null
+  #runningGenerator: Generator<any, T, any> | null = null
   #paused = false
   #idle: number | null = null
   #aborted = false
 
-  result: any = null
+  onresult: (result: T) => void = () => {}
 
   #destroy() {
     if (this.#idle !== null) {
@@ -52,7 +52,7 @@ export class AbortableScheduler {
     this.#paused = false
   }
 
-  constructor(generator: () => Generator<any, any, any>) {
+  constructor(generator: () => Generator<any, T, any>) {
     this.#generator = generator
   }
 
@@ -60,7 +60,7 @@ export class AbortableScheduler {
     const gen = this.#runningGenerator || this.#generator()
 
     const idleCallback = (deadline: IdleDeadline) => {
-      while (!deadline.didTimeout && deadline.timeRemaining() > 0) {
+      while (deadline.timeRemaining() > 0) {
         if (this.#aborted) {
           this.#destroy()
           return
@@ -73,14 +73,14 @@ export class AbortableScheduler {
         }
         const n = gen.next()
         if (n.done) {
-          this.result = n.value
+          this.onresult(n.value)
           this.#destroy()
           return
         }
       }
-      this.#idle = requestIdleCallback(idleCallback, { timeout: 3000 })
+      this.#idle = requestIdleCallback(idleCallback)
     }
-    this.#idle = requestIdleCallback(idleCallback, { timeout: 3000 })
+    this.#idle = requestIdleCallback(idleCallback)
   }
 
   pause() {
