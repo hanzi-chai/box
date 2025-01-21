@@ -1,12 +1,5 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`detectPlatFormat common 1`] = `
-{
-  "ahead": true,
-  "split": " ",
-}
-`;
-
 exports[`load common 1`] = `
 {
   "cache": {},
@@ -36,4 +29,11 @@ exports[`load common 1`] = `
 edg 可以吗？"
 ,
 }
+`;
+
+exports[`dump common 1`] = `
+"abc 是
+abc 不是
+edg 可以吗？
+"
 `;
