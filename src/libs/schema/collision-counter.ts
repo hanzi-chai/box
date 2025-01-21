@@ -60,28 +60,3 @@ export class CollisionCounter {
     this.max = m
   }
 }
-
-/**
- * 从极速赛码表的编码中，计算出重码
- * @param code 赛码表的编码
- * @returns 去除选重后的编码，以及重码数
- */
-export function getJisuCollision(code: string): {
-  code: string
-  collision: number
-} {
-  // 空格是一重
-  if (code.at(-1) === "_")
-    return { code, collision: 1 }
-  // 数字结尾的，有选重结果
-  const pattern = /\d+$/
-  const regexResult = pattern.exec(code)
-  if (regexResult) {
-    return {
-      code: code.slice(0, regexResult.index),
-      collision: Number.parseInt(regexResult[0]),
-    }
-  }
-  // 没有尾缀的，也是一重
-  return { code, collision: 1 }
-}

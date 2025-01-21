@@ -4,7 +4,7 @@ import type { Mabiao, MbItem } from "@/libs/schema"
 import type { EvaluateLineHanzi, EvaluateLineWords } from "./types"
 
 import * as utils from "@/libs/utils"
-import { CollisionCounter } from "../simulator/collision-counter"
+import { CollisionCounter } from "../schema/collision-counter"
 
 /** 合并多个测评结果中的usage */
 export function getTotalUsage(
@@ -101,7 +101,7 @@ export function isNormal<T>(evaluteItem: T) {
   return evaluteItem.overKey === 0
 }
 
-export const createUsageHelpArray = (): number[] => Array.from({ length: 128 }).fill(0)
+export const createUsageHelpArray = (): number[] => Array.from({ length: 128 } as any[]).fill(0)
 
 /** 数组形式的 */
 export function usageHelpArrayToUsage(helpArray: number[]) {

@@ -1,3 +1,4 @@
+/** 基础信息，缺字也要保留 */
 export interface EvaluateBaseItem {
   /** 字词 */
   wd: string
