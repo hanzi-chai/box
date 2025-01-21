@@ -1,0 +1,99 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`base load 1`] = `
+{
+  "cache": {},
+  "fileName": "erbi",
+  "header": "",
+  "items": [
+    {
+      "cd": "hj'",
+      "collision": 1,
+      "ln": 1,
+      "wd": "酣",
+    },
+    {
+      "cd": "hjd",
+      "collision": 0,
+      "ln": 2,
+      "wd": "胡",
+    },
+    {
+      "cd": "hjt",
+      "collision": 1,
+      "ln": 3,
+      "wd": "鹕",
+    },
+    {
+      "cd": "hjf",
+      "collision": 1,
+      "ln": 4,
+      "wd": "翰",
+    },
+    {
+      "cd": "hjg",
+      "collision": 1,
+      "ln": 5,
+      "wd": "鬟",
+    },
+    {
+      "cd": "hjh",
+      "collision": 1,
+      "ln": 6,
+      "wd": "韩",
+    },
+    {
+      "cd": "hjj",
+      "collision": 1,
+      "ln": 7,
+      "wd": "醐",
+    },
+    {
+      "cd": "hjk",
+      "collision": 1,
+      "ln": 8,
+      "wd": "卉",
+    },
+    {
+      "cd": "hjk",
+      "collision": 2,
+      "ln": 9,
+      "wd": "醢",
+    },
+    {
+      "cd": "hjm",
+      "collision": 1,
+      "ln": 10,
+      "wd": "邯",
+    },
+  ],
+  "name": "erbi",
+  "plat": "duoduo",
+  "txt": 
+"酣\thj'_
+胡\thjd
+鹕\thjt_
+翰\thjf_
+鬟\thjg_
+韩\thjh_
+醐\thjj_
+卉\thjk_
+醢\thjk2
+邯\thjm_"
+,
+}
+`;
+
+exports[`dump should work 1`] = `
+"酣\thj'
+胡\thjd
+鹕\thjt
+翰\thjf
+鬟\thjg
+韩\thjh
+醐\thjj
+卉\thjk
+醢\thjk
+邯\thjm
+"
+`;

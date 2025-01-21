@@ -2,8 +2,8 @@ import type { DuoduoMeta } from "./mabiao-meta"
 import * as utils from "@/libs/utils"
 import {
   createEmptyTextMabiao,
-  FormatError,
   type Mabiao,
+  MabiaoFormatError,
   type MbItem,
   type TextMabiao,
   type TextPlatform,
@@ -56,7 +56,7 @@ function load(raw: string, title?: string) {
     }
     const tabCounts = utils.countChar(line, "\t")
     if (tabCounts !== 1) {
-      throw new FormatError("需要一个Tab分隔符", lineno)
+      throw new MabiaoFormatError("需要一个Tab分隔符", lineno)
     }
 
     try {
@@ -75,7 +75,7 @@ function load(raw: string, title?: string) {
     }
     catch (error) {
       if (error instanceof Error) {
-        throw new FormatError(`词条编码错误：${error.message}`, lineno)
+        throw new MabiaoFormatError(`词条编码错误：${error.message}`, lineno)
       }
     }
   }

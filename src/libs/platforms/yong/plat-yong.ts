@@ -7,7 +7,7 @@ import {
   type TextMabiao,
   validateCodes,
 } from "../../schema"
-import { FormatError, type TextPlatform } from "../types"
+import { MabiaoFormatError, type TextPlatform } from "../types"
 
 import logo from "./yong.png"
 
@@ -51,7 +51,7 @@ function load(raw: string, title?: string): TextMabiao {
         continue
 
       if (!line.includes("="))
-        throw new FormatError("码表头格式错误，没有“=”号", lineno)
+        throw new MabiaoFormatError("码表头格式错误，没有“=”号", lineno)
 
       const [key, value] = utils.quickSplit2(line, "=")
       yongObj[key] = value
@@ -77,10 +77,10 @@ function load(raw: string, title?: string): TextMabiao {
 
     const [cd, ...words] = utils.quickSplit(line, " ")
     if (!validateCodes(cd))
-      throw new FormatError("编码含有非法字符", lineno)
+      throw new MabiaoFormatError("编码含有非法字符", lineno)
 
     if (words.length === 0)
-      throw new FormatError("没有词语", lineno)
+      throw new MabiaoFormatError("没有词语", lineno)
 
     for (const wd of words) {
       result.items.push({ wd, cd, ln: realLineNo })

@@ -6,7 +6,7 @@ import { load as loadYaml } from "js-yaml"
 import * as R from "rambdax"
 import {
   createEmptyTextMabiao,
-  FormatError,
+  MabiaoFormatError,
   type Mabiao,
   type MbItem,
   type TextMabiao,
@@ -126,7 +126,7 @@ function load(raw: string, title?: string) {
   const start = raw.indexOf("---")
   const end = raw.indexOf("...")
   if (start === -1 || end === -1) {
-    throw new FormatError("缺少Rime码表头", 1)
+    throw new MabiaoFormatError("缺少Rime码表头", 1)
   }
 
   result.header = raw.slice(0, end + 3)
@@ -140,7 +140,7 @@ function load(raw: string, title?: string) {
   catch (error) {
     // 解析yaml格式出错
     if (error instanceof Error) {
-      throw new FormatError(`解析Yaml码表头出错：${error.message}`, 2)
+      throw new MabiaoFormatError(`解析Yaml码表头出错：${error.message}`, 2)
     }
   }
   result.cache.rimeObj = headerObj
@@ -185,7 +185,7 @@ function load(raw: string, title?: string) {
       if (columns[i] === "weight") {
         const freq = Number.parseInt(parts[i])
         if (Number.isNaN(freq)) {
-          throw new FormatError("词频不是整数", lineno)
+          throw new MabiaoFormatError("词频不是整数", lineno)
         }
         tmpMbItem.freq = freq
         continue

@@ -13,7 +13,7 @@ export const allTextPlatforms = [
   platSogo,
 ] as const
 
-export type PlatformIds = "duoduo" | "rime" | "sogo" | "yong"
+export type PlatformIds = "duoduo" | "rime" | "sogo" | "yong" | "jisu"
 
 // TODO: 极速赛码表格式 单单赛码表 chaifen.app的码表 冰凌
 

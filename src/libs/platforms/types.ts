@@ -39,8 +39,8 @@ export interface TextPlatform {
   dump: (mb: Mabiao, ctx?: any) => string
 }
 
-export class FormatError extends Error {
-  name = "FormatError"
+export class MabiaoFormatError extends Error {
+  name = "MabiaoFormatError"
   constructor(
     msg: string,
     public ln: number,
