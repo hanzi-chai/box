@@ -7,6 +7,7 @@ import router from "./router"
 import "./assets/pollyfill"
 import "@fontsource/jetbrains-mono/index.css"
 import "./index.css"
+import "./helper.css"
 
 const app = createApp(App)
 
