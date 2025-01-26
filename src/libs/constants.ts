@@ -25,7 +25,7 @@ export const KEYS_EQ = KEYS_MAIN + KeyUno.Space
 export const KEYS_UNO = `${KeyUno.Space}${KeyUno.Shift}${KeyUno.BackSpace}${KeyUno.Tab}${KeyUno.Enter}`
 
 /** 按shift键才能打出的字，映射回来 */
-export const KEYS_TO_LOWER = (() => {
+export const KEYS_TO_UPPER = (() => {
   const result: Record<string, string> = {}
   for (let i = 0; i < KEYS_SHIFT.length; i++) {
     result[KEYS_NO_SHIFT[i]] = KEYS_SHIFT[i]
@@ -34,7 +34,7 @@ export const KEYS_TO_LOWER = (() => {
 })()
 
 /** 按shift键才能打出的字，映射回来 */
-export const KEYS_TO_UPPER = (() => {
+export const KEYS_TO_LOWER = (() => {
   const result: Record<string, string> = {}
   for (let i = 0; i < KEYS_SHIFT.length; i++) {
     result[KEYS_SHIFT[i]] = KEYS_NO_SHIFT[i]

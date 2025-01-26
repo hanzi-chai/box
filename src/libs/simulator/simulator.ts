@@ -8,7 +8,7 @@
  */
 
 import type { Mabiao, MbItem } from "../schema"
-import { PUNCTUATIONS } from "@/libs/constants"
+import { KEYS_TO_LOWER, PUNCTUATIONS } from "@/libs/constants"
 import * as feel from "@/libs/feeling"
 import * as utils from "@/libs/utils"
 import { calcCollision, getMaxCodeLen, getMaxWordsLen, getSelectKeys } from "../schema"
@@ -234,7 +234,6 @@ export function* simurate(mb: Mabiao, re: RegExp, map: Map<string, MbItem>, arti
   for (const e of lackCounter.values()) lacks += e
   const lackString = [...lackCounter.keys()].sort().join("")
 
-  const singleCount = wordsDist[0]
   let commit = 0
   let char = 0
   for (let i = 0; i < wordsDist.length; i++) {
@@ -291,37 +290,119 @@ export function* simurate(mb: Mabiao, re: RegExp, map: Map<string, MbItem>, arti
   Eq = Eq / 10
 
   return {
+    /** 缺字数量 */
     lacks,
+    /** 缺字字符，已经排序过 */
     lackString,
+    /** 各缺字字符的频数 */
     lackCounter,
+    /**
+     * 各长度的词语的频数,
+     * 例：索引0表示上屏单字的次数
+     *
+     * 需要提供最大值,用于性能优化
+     */
     wordsDist,
-    singleCount,
+    /** 上屏次数 */
     commit,
+    /** 上屏的总字数 */
     char,
+    /** 选重次数 */
     collision,
+    /**
+     * 选重频数分布
+     *
+     * 需要提供最大值,用于性能优化
+     *
+     * - 索引 0 顶字上屏
+     * - 索引 1 首选
+     * - 索引 2 二重
+     */
     collisionDist,
+    /** 总码长 */
     codeLen,
+    /**
+     * 不同编码长度的分布,例：索引0表示1码长的上屏次数
+     *
+     * 需要提供最大值,用于性能优化
+     */
     codeLenDist,
+    /** 总按键次数 */
     keys,
-    keysDist,
+    /** 各按键的频数 */
+    keysDist: transformDistributionToObject(keysDist),
+    /** 键盘上每一行按键的频数 */
     kbdRowDist,
+    /** 每个手指按下的频数 */
     finDist,
-    comboDist,
+    /** 所有按键组合的频数，一个对象，键是按键组合，值是频数 */
+    comboDist: transformDistribution2D(comboDist),
+    /** 总按键组合的频数 */
     combo,
+    /** 总当量 */
     Eq,
+    /** 二连击次数 */
     double: comboFeels[feel.ComboType.DoubleHit],
+    /** 小跨排次数 */
     singleSpan: comboFeels[feel.ComboType.SingleSpan],
+    /** 大跨排次数 */
     multiSpan: comboFeels[feel.ComboType.MultiSpan],
+    /** 错手次数 */
     longFD: comboFeels[feel.ComboType.LongFingersDisturb],
+    /** 小指干扰次数 */
     littleFD: comboFeels[feel.ComboType.PinkyDisturb],
+    /** 同手的按键组合 */
     sameFingers,
-    leftLeft: diffHands[0],
-    leftRight: diffHands[1],
-    rightLeft: diffHands[2],
-    rightRight: diffHands[3],
+    /** 不同手的按键组合 */
     diffHand: diffHands[1] + diffHands[2],
+    /** 先左手，后左手，的按键组合 */
+    leftLeft: diffHands[0],
+    /** 先左手，后右手，的按键组合 */
+    leftRight: diffHands[1],
+    /** 先右手，后左手，的按键组合 */
+    rightLeft: diffHands[2],
+    /** 先右手，后右手，的按键组合 */
+    rightRight: diffHands[3],
+    /** 收集的全部数据 */
     collectArray,
   } as const
 }
 
 // #endregion
+
+/**
+ * 将分布数组转换为对象，对象的键是按键，值是频数。
+ * 会把需要按shift的按键转换为小写
+ */
+function transformDistributionToObject(dist: number[]): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (let i = 0; i < dist.length; i++) {
+    if (dist[i] === 0)
+      continue
+    let char = String.fromCharCode(i)
+    char = KEYS_TO_LOWER[char] || char
+    result[char] = (result[char] || 0) + dist[i]
+  }
+  return result
+}
+
+/**
+ * 把频数分布的二维数组转换成对象,对象的键是按键组合，值是组合的频数。
+ * 会把需要按shift的按键转换为小写
+ */
+function transformDistribution2D(dist: number[][]): Record<string, number> {
+  const result: Record<string, number> = {}
+  for (let i = 0; i < dist.length; i++) {
+    for (let j = 0; j < dist[i].length; j++) {
+      if (dist[i][j] === 0)
+        continue
+      const char1 = String.fromCharCode(i)
+      const char2 = String.fromCharCode(j)
+      const char1Lower = KEYS_TO_LOWER[char1] || char1
+      const char2Lower = KEYS_TO_LOWER[char2] || char2
+      const key = char1Lower + char2Lower
+      result[key] = (result[key] || 0) + dist[i][j]
+    }
+  }
+  return result
+}
