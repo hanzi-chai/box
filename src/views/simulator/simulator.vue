@@ -48,14 +48,14 @@ useSetTitle("赛码器")
 
       <ElCard class="col-span-2 sm:col-span-1">
         <h2>主码表</h2>
-        {{ $parent }}
+
         <template #footer>
           <ElButton>设置</ElButton>
           <ElButton>测评</ElButton>
         </template>
       </ElCard>
       <ElCard class="col-span-2 sm:col-span-1">
-        <h2 />副码表
+        <h2>副码表</h2>
         <template #footer>
           <ElButton>设置</ElButton>
           <ElButton>测评</ElButton>
