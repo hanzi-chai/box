@@ -5,7 +5,7 @@ import App from "./App.vue"
 
 import router from "./router"
 import "./assets/pollyfill"
-import "@fontsource/monaspace-neon"
+import "@fontsource/jetbrains-mono/index.css"
 import "./index.css"
 
 const app = createApp(App)
