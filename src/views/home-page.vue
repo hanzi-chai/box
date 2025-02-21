@@ -17,8 +17,8 @@ const buildtime = import.meta.env.BUILD_TIME
       </RouterLink>
       <div class="font-misans text-xs text-gray-400 decoration-none">
         Build time: {{ buildtime }}<br>
-        Under <a href="https://www.mozilla.org/en-US/MPL/2.0/" class="text-gray-400 font-bold decoration-none" target="_blank">MPL2.0</a> lisence.<br>
-        Welcome to our <a href="https://github.com/hanzi-chai/box" class="text-gray-400 font-bold decoration-none" target="_blank">Github Repo</a>.<br>
+        Under <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank">MPL2.0</a> lisence.<br>
+        Welcome to our <a href="https://github.com/hanzi-chai/box" target="_blank">Github Repo</a>.<br>
       </div>
     </div>
   </div>

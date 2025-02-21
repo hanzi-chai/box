@@ -14,6 +14,16 @@ export async function writeStringToClipboard(str: string) {
   await navigator.clipboard.writeText(str)
 }
 
+export async function readStringFromClipboard() {
+  try {
+    return await navigator.clipboard.readText()
+  }
+  catch (err) {
+    console.error(err)
+    return ""
+  }
+}
+
 export function sleep(milliseconds = 0) {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }

@@ -35,7 +35,7 @@ useSetTitle("赛码器")
         </el-button>
       </div>
     </template>
-
+    <FormMabiao />
     <div class="grid grid-cols-2 m-auto max-w-screen-lg gap-5 p-4">
       <el-card class="col-span-2">
         <h2>赛文</h2>

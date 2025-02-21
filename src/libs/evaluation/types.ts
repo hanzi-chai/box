@@ -1,5 +1,5 @@
 /** 基础信息，缺字也要保留 */
-export interface EvaluateBaseItem {
+export interface EvaluateItemBase {
   /** 字词 */
   wd: string
   /** 频数 */
@@ -11,7 +11,7 @@ export interface EvaluateBaseItem {
 }
 
 /** 非缺字的词条的信息 */
-export interface EvaluateWordsItem extends EvaluateBaseItem {
+export interface EvaluateItemWords extends EvaluateItemBase {
   /** 编码 */
   code: string
   /** 编码长度 */
@@ -37,7 +37,7 @@ export interface EvaluateWordsItem extends EvaluateBaseItem {
 }
 
 /** 非缺字的汉字信息, 也是详细表格里会展示的列 */
-export interface EvaluateHanziItem extends EvaluateBaseItem {
+export interface EvaluateItemHanzi extends EvaluateItemBase {
   /** 编码 */
   code: string
   /** 原码表里的行数 */
@@ -74,7 +74,7 @@ export interface EvaluateHanziItem extends EvaluateBaseItem {
 
 interface EvaluateLine<T> {
   /** 每一条数据 */
-  items: Array<T | EvaluateBaseItem>
+  items: Array<T | EvaluateItemBase>
   /** 从第几个字频开始 */
   start: number
   /** 到第几个字频结束(不包括) */
@@ -85,5 +85,5 @@ interface EvaluateLine<T> {
   usage: Record<string, number>
 }
 
-export type EvaluateLineHanzi = EvaluateLine<EvaluateHanziItem>
-export type EvaluateLineWords = EvaluateLine<EvaluateWordsItem>
+export type EvaluateLineHanzi = EvaluateLine<EvaluateItemHanzi>
+export type EvaluateLineWords = EvaluateLine<EvaluateItemWords>

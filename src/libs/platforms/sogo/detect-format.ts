@@ -1,4 +1,5 @@
-import { getCodeToWordsDict, type Mabiao, validateCodes } from "@/libs/schema"
+import type { Mabiao } from "@/libs/schema"
+import { getCodeToWordsDict, validateCodes } from "@/libs/schema"
 import * as utils from "@/libs/utils"
 
 type SplitSpace = " " | "\t"

@@ -17,7 +17,7 @@ export async function blobDetectFileEncoding(src: Blob, filename = "") {
 }
 
 /** 读取二进制数据为字符串，如果不填编码参数，默认为utf-8 */
-export function blobRead(src: Blob, encoding?: string) {
+export function readBlob(src: Blob, encoding?: string) {
   // 默认为utf-8
   if (!encoding) {
     return src.text()
@@ -37,7 +37,7 @@ export function blobRead(src: Blob, encoding?: string) {
 
 export async function blobDetectAndRead(src: Blob, filename = "") {
   const encoding = await blobDetectFileEncoding(src, filename)
-  return await blobRead(src, encoding)
+  return await readBlob(src, encoding)
 }
 
 export async function blobReadAsUint8Array(src: Blob) {

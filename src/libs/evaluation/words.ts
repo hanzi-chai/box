@@ -1,8 +1,9 @@
+import type { Mabiao } from "@/libs/schema"
 import type { FreqMatrix, HanziMap } from "./share"
-import type { EvaluateLineWords, EvaluateWordsItem } from "./types"
 
+import type { EvaluateItemWords, EvaluateLineWords } from "./types"
 import * as feel from "@/libs/feeling"
-import { type Mabiao, validateCodesInEquivalent } from "@/libs/schema"
+import { validateCodesInEquivalent } from "@/libs/schema"
 import { freqCountToFreq } from "@/libs/utils"
 import { CollisionCounter } from "../schema/collision-counter"
 import * as share from "./share"
@@ -46,7 +47,7 @@ function* genEveryHanzi(matrix: share.FreqMatrix) {
 
 /** 测评6个区间 */
 function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
-  const WordsSections = [
+  const wordsSections = [
     [0, 2000],
     [2000, 5000],
     [5000, 10000],
@@ -57,7 +58,7 @@ function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
   const collisionCounter = new CollisionCounter()
 
   const result: EvaluateLineWords[] = []
-  for (const [start, end] of WordsSections) {
+  for (const [start, end] of wordsSections) {
     let totalFreq = 0
     const items: EvaluateLineWords["items"] = []
     const usageHelpArray = share.createUsageHelpArray()
@@ -74,7 +75,7 @@ function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
         continue
       }
       const cdLen = cd.length
-      const tmpEvaluateItem: EvaluateWordsItem = {
+      const tmpEvaluateItem: EvaluateItemWords = {
         wd,
         freq,
         reFreq: 0,

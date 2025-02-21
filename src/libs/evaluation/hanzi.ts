@@ -1,11 +1,12 @@
 /** 根据字频表数据测评, 即科学形码测评系统 */
 
+import type { Mabiao } from "@/libs/schema"
 import type { FreqMatrix, HanziMap } from "./share"
-import type { EvaluateHanziItem, EvaluateLineHanzi } from "./types"
+import type { EvaluateItemHanzi, EvaluateLineHanzi } from "./types"
 import * as feel from "@/libs/feeling"
 import {
   getKeysSet,
-  type Mabiao,
+
   validateCodesInEquivalent,
 } from "@/libs/schema"
 import * as utils from "@/libs/utils"
@@ -89,7 +90,7 @@ export function evaluateSections(
         usageHelpArray[selectKey.charCodeAt(0)] += freq
       }
       /** 待测评的词条 */
-      const tmpEvaluateItem: EvaluateHanziItem = {
+      const tmpEvaluateItem: EvaluateItemHanzi = {
         wd,
         freq,
         reFreq: 0,

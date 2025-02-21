@@ -1,13 +1,13 @@
+import type { Mabiao, TextMabiao } from "../../schema"
+import type { TextPlatform } from "../types"
 import * as utils from "@/libs/utils"
 import * as R from "rambdax"
 import {
   createEmptyTextMabiao,
   getCodeToWordsDict,
-  type Mabiao,
-  type TextMabiao,
   validateCodes,
 } from "../../schema"
-import { MabiaoFormatError, type TextPlatform } from "../types"
+import { MabiaoFormatError } from "../types"
 
 import logo from "./yong.png"
 
