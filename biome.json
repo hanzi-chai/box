@@ -24,6 +24,9 @@
       "style": {
         "noNonNullAssertion": "off"
       },
+      "nursery": {
+        "useSortedClasses": "error"
+      },
       "suspicious": {
         "noExplicitAny": "off",
         "noShorthandPropertyOverrides": "off"

@@ -19,39 +19,48 @@
     "dev": "rsbuild dev",
     "build": "rsbuild build",
     "preview": "rsbuild preview",
-    "lint": "eslint ./src --fix",
+    "lint": "biome lint ./src --write",
     "test": "bun test --watch"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
     "@fontsource/jetbrains-mono": "^5.1.2",
     "@iconify-json/ri": "^1.2.5",
-    "@rsbuild/core": "1.2.2",
-    "@rsbuild/plugin-vue": "^1.0.5",
-    "@unocss/postcss": "^65.4.3",
-    "@vueuse/core": "^12.5.0",
+    "@rsbuild/core": "1.2.11",
+    "@rsbuild/plugin-vue": "^1.0.6",
+    "@unocss/postcss": "^66.0.0",
+    "@vueuse/core": "^12.7.0",
     "detect-file-encoding-and-language": "^2.4.0",
-    "element-plus": "^2.9.3",
+    "element-plus": "^2.9.5",
     "js-yaml": "^4.1.0",
-    "nanoid": "^5.0.9",
-    "pinia": "^2.3.1",
+    "nanoid": "^5.1.0",
+    "pinia": "^3.0.1",
     "pinia-plugin-persistedstate-2": "^2.0.28",
     "rambdax": "^11.3.1",
-    "unocss": "^65.4.3",
-    "unplugin-vue-components": "^28.0.0",
+    "unocss": "^66.0.0",
+    "unplugin-vue-components": "^28.4.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.1.0",
-    "@types/bun": "^1.2.0",
+    "@antfu/eslint-config": "^4.3.0",
+    "@biomejs/biome": "1.9.4",
+    "@types/bun": "^1.2.3",
     "@types/js-yaml": "^4.0.9",
-    "@unocss/eslint-plugin": "^65.4.3",
-    "eslint": "^9.19.0",
+    "@unocss/eslint-plugin": "^66.0.0",
+    "eslint": "^9.21.0",
     "typescript": "^5.7.3"
   },
   "prettier": {
     "printWidth": 100,
     "semi": false
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "core-js",
+      "esbuild",
+      "vue-demi"
+    ]
   }
 }
