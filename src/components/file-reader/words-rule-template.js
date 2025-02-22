@@ -5,7 +5,7 @@ export default `// @ts-check
  * @param {RuleUtils} utils 工具方法
  * @returns {string} 返回这个词语的编码
  */
-export function customRule(words, utils) {
+function customRule(words, utils) {
   // 请在此处开始编写自定义规则，不要改动上面的内容！
 
   // 这是是五笔造词规则的示范
@@ -27,7 +27,7 @@ export function customRule(words, utils) {
   const twoCodes = index => myGetCode(index).slice(0, 2)
 
   if (len === 1) {
-    throw new Error("不应该是单字")
+    throw new Error(\`【\${words}】不应该是单字\`)
   }
   if (len === 2) {
     return twoCodes(0) + twoCodes(1)

@@ -8,7 +8,7 @@ const showWordsRule = ref(false)
   <ElButton @click="showWordsRule = true">
     设置造词规则…
   </ElButton>
-  <ElDialog v-model="showWordsRule" title="配置造词规则" class="min-w-sm" center>
+  <ElDialog v-model="showWordsRule" title="设置造词规则" class="min-w-sm" center>
     <WordsRuleTabs />
     <template #footer>
       <ElButton type="primary" size="default" @click="showWordsRule = false">

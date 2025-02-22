@@ -176,6 +176,10 @@ p {
   text-wrap: pretty;
 }
 
+:root{
+  --el-color-primary: #075985 !important;
+}
+
 /*
   Fallback layer. It's always recommended to include.
   Only unused layers will be injected here.

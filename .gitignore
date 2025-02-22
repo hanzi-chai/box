@@ -3,6 +3,7 @@
 *.local
 *.log*
 .eslintcache
+.idea
 
 # Dist
 node_modules
