@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import { useSetTitle } from "@/libs/hooks"
 import { CaretRight } from "@element-plus/icons-vue"
+import { ElNotification } from "element-plus"
+import { onErrorCaptured } from "vue"
+import CardArticle from "./card-article.vue"
+import CardMabiao from "./card-mabiao.vue"
+
+onErrorCaptured((err) => {
+  ElNotification({
+    title: "操作错误",
+    message: err.message,
+    type: "error",
+  })
+})
 
 useSetTitle("赛码器")
 </script>
@@ -36,33 +48,11 @@ useSetTitle("赛码器")
           </el-button>
         </div>
       </template>
-      <FormMabiao />
+
       <div class="grid grid-cols-2 m-auto max-w-screen-lg gap-5 p-4">
-        <el-card class="col-span-2">
-          <h2>赛文</h2>
-          {{ $route }}
-          <template #footer>
-            <ElButton>设置</ElButton>
-            <ElButton>统计</ElButton>
-          </template>
-        </el-card>
-
-        <ElCard class="col-span-2 sm:col-span-1">
-          <h2>主码表</h2>
-
-          <template #footer>
-            <ElButton>设置</ElButton>
-            <ElButton>测评</ElButton>
-          </template>
-        </ElCard>
-
-        <ElCard class="col-span-2 sm:col-span-1">
-          <h2>副码表</h2>
-          <template #footer>
-            <ElButton>设置</ElButton>
-            <ElButton>测评</ElButton>
-          </template>
-        </ElCard>
+        <CardArticle class="col-span-2" />
+        <CardMabiao class="col-span-2 sm:col-span-1" />
+        <CardMabiao class="col-span-2 sm:col-span-1" />
       </div>
     </el-page-header>
   </ElScrollbar>

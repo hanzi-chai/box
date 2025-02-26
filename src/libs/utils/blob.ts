@@ -11,7 +11,9 @@ export function createTextBlob(content: string) {
 export async function blobDetectFileEncoding(src: Blob, filename = "") {
   const encoding = (await DetectFileEncoding(src)).encoding as string
   if (!encoding) {
-    throw new TypeError(`无法识别文件${filename}的编码。`)
+    throw new TypeError(
+      `无法识别文本文件《${filename}》的编码。建议转换成UTF-8编码。`,
+    )
   }
   return encoding
 }

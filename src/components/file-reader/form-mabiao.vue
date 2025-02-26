@@ -18,7 +18,7 @@ const form = ref({
     <ElFormItem label="码表格式">
       <ElSelect v-model="form.plat" placeholder="请选择">
         <ElOption v-for="item in allTextPlatforms" :key="item.id" :label="item.nameZh" :value="item.id">
-          <img :src="item.logo" class="mr-3 inline-block align-baseline" style="width: 1em; height: 1em;">
+          <img :src="item.logo" class="mr-3 inline-block align-baseline" style="width: 1em; height: 1em;" :alt="`${item.nameZh}平台LOGO`">
           <div class="inline-block">
             {{ item.nameZh }}
           </div>

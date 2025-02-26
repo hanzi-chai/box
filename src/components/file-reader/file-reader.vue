@@ -3,14 +3,17 @@ import * as utils from "@/libs/utils"
 import { UploadFilled } from "@element-plus/icons-vue"
 import { onUnmounted, ref, watch } from "vue"
 
-const props = withDefaults(defineProps<{
-  strategy?: Strategy
-}>(), {
-  strategy: "upload",
-})
+const props = withDefaults(
+  defineProps<{
+    strategy?: Strategy
+  }>(),
+  {
+    strategy: "upload",
+  },
+)
 
 const emits = defineEmits<{
-  (e: "text", value: string): void
+  text: [string]
 }>()
 
 const strategies = [
@@ -19,7 +22,7 @@ const strategies = [
   ["textarea", "输入文本"],
 ] as const
 
-type Strategy = typeof strategies[number][0]
+type Strategy = (typeof strategies)[number][0]
 const strategyRef = ref<Strategy>(props.strategy)
 
 const text = ref("")

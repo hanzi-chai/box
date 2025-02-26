@@ -8,6 +8,7 @@ import "./assets/pollyfill"
 import "@fontsource/jetbrains-mono/index.css"
 import "./index.css"
 import "./helper.css"
+import "element-plus/es/components/notification/style/css.mjs"
 
 const app = createApp(App)
 
