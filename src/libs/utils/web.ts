@@ -10,6 +10,11 @@ export function downloadFile<T extends Blob>(aFile: T, filename: string) {
   URL.revokeObjectURL(href)
 }
 
+/** 是否有ElementPlus的对话框 */
+export function hasElDialog() {
+  return document.getElementsByClassName("el-dialog").length > 0
+}
+
 export async function writeStringToClipboard(str: string) {
   await navigator.clipboard.writeText(str)
 }

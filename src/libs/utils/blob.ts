@@ -37,6 +37,17 @@ export function readBlob(src: Blob, encoding?: string) {
   })
 }
 
+/** 读取FileList，只能打开一个文件。用于拖拽或input元素 */
+export async function fileListDetectAndRead(fl?: FileList | null) {
+  if (!fl) {
+    throw new Error("没有文件")
+  }
+  if (fl.length > 1) {
+    throw new Error("只能选择一个文件")
+  }
+  return await blobDetectAndRead(fl[0])
+}
+
 export async function blobDetectAndRead(src: Blob, filename = "") {
   const encoding = await blobDetectFileEncoding(src, filename)
   return await readBlob(src, encoding)
