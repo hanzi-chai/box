@@ -2,6 +2,9 @@
   "recommendations": [
     "Vue.volar",
     "dbaeumer.vscode-eslint",
-    "biomejs.biome"
+    "ms-ceintl.vscode-language-pack-zh-hans",
+    "helgardrichard.helium-icon-theme",
+    "christian-kohler.path-intellisense",
+    "antfu.unocss"
   ]
 }

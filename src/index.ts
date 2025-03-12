@@ -21,6 +21,16 @@ app.directive("focus", {
   },
 })
 
+// v-opacity 指令
+app.directive("opacity", {
+  mounted(el, { value }) {
+    el.style.opacity = Number(value) || 0
+  },
+  updated(el, { value }) {
+    el.style.opacity = Number(value) || 0
+  },
+})
+
 // #endregion
 
 // #region vue plugins

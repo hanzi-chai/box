@@ -1,12 +1,13 @@
+import type { Mabiao, TextMabiao } from "../../schema"
+import type { TextPlatform } from "../types"
+
 import { validateCodes } from "@/libs/schema"
 import * as utils from "@/libs/utils"
-
 import {
   createEmptyTextMabiao,
-  type Mabiao,
-  type TextMabiao,
+
 } from "../../schema"
-import { MabiaoFormatError, type TextPlatform } from "../types"
+import { MabiaoFormatError } from "../types"
 
 import logo from "./jisu.png"
 

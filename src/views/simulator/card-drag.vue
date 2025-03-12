@@ -45,8 +45,6 @@ async function readFileFromFileList(fl?: FileList | null) {
 }
 
 async function drop(e: DragEvent) {
-  if (utils.hasElDialog())
-    return
   e.preventDefault()
   isDrag.value = false
   const files = e.dataTransfer?.files
@@ -55,8 +53,14 @@ async function drop(e: DragEvent) {
 
 function next() {
   openEmptyDialog.value = false
-  content.value = "sub component impl"
+  content.value = "我太懒了，不想动笔 😭"
   isDrag.value = false
+}
+
+function onDelete() {
+  content.value = ""
+  openEmptyDialog.value = false
+  e("clear")
 }
 </script>
 
@@ -74,10 +78,14 @@ function next() {
         释放文件，自动打开
       </p>
     </div>
+    <!-- 打开文件的对话框 -->
+    <el-dialog v-model="openEmptyDialog" width="20rem">
+      <slot name="empty" :next />
+    </el-dialog>
     <div
       v-if="!content"
       class="h-full flex flex-col cursor-pointer select-none place-items-center justify-center gap-5 bg-white from-blue-100/30 to-white text-left text-gray-700 hover:bg-gradient-to-t hover:text-blue-600"
-      @click.self=" openEmptyDialog = true "
+      @click="openEmptyDialog = true"
     >
       <el-icon size="38" color="gray">
         <CirclePlus />
@@ -85,10 +93,6 @@ function next() {
       <p>
         {{ emptyLabel || "拖动文件至此，或者点击" }}
       </p>
-      <!-- 打开文件的对话框 -->
-      <el-dialog v-model="openEmptyDialog" width="20rem">
-        <slot name="empty" :next />
-      </el-dialog>
     </div>
     <div v-else class="max-h-67 overflow-hidden">
       <!-- 默认插槽，展示基本信息 -->
@@ -106,13 +110,13 @@ function next() {
         <slot name="evaluate" />
       </el-dialog>
       <div class="absolute inset-x-0 bottom-0 flex">
-        <el-button class="flex-1" size="large" :icon="Delete" type="warning" text @click="content = '';$emit('clear')">
+        <el-button class="flex-1" size="large" :icon="Delete" type="warning" text @click="onDelete">
           清除
         </el-button>
-        <el-button class="flex-1" size="large" :icon="Operation" type="success" text @click="openSetDialog = true;$emit('set')">
+        <el-button class="flex-1" size="large" :icon="Operation" type="success" text @click="openSetDialog = true; $emit('set')">
           设置
         </el-button>
-        <el-button class="flex-1" size="large" :icon="DataAnalysis" type="primary" text @click="openEvaluateDialog = true;$emit('evaluate')">
+        <el-button class="flex-1" size="large" :icon="DataAnalysis" type="primary" text @click="openEvaluateDialog = true; $emit('evaluate')">
           测评
         </el-button>
       </div>

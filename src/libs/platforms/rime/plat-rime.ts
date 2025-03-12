@@ -1,16 +1,15 @@
 /** rime会占用 mb.cache.rimeObj */
 
-import * as utils from "@/libs/utils"
+import type { Mabiao, MbItem, TextMabiao, TextPlatform } from "../types"
 
+import * as utils from "@/libs/utils"
 import { load as loadYaml } from "js-yaml"
 import * as R from "rambdax"
 import {
   createEmptyTextMabiao,
+
   MabiaoFormatError,
-  type Mabiao,
-  type MbItem,
-  type TextMabiao,
-  type TextPlatform,
+
 } from "../types"
 
 import logo from "./rime.png"

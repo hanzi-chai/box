@@ -14,5 +14,7 @@ export default antfu({
     "no-var": ["off"],
     "no-restricted-syntax": ["off", "TSEnumDeclaration[const=true]"],
     "unicorn/new-for-builtins": ["off"],
+    "unicorn/number-literal-case": ["off"],
+    "unused-imports/no-unused-imports": ["off"],
   },
 })

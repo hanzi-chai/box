@@ -40,7 +40,7 @@ export class AbortableScheduler<T> {
   #idle: number | null = null
   #aborted = false
 
-  onresult: (result: T) => void = () => {}
+  onresult: (result: T) => void = () => { }
 
   #destroy() {
     if (this.#idle !== null) {
@@ -81,6 +81,12 @@ export class AbortableScheduler<T> {
       this.#idle = requestIdleCallback(idleCallback)
     }
     this.#idle = requestIdleCallback(idleCallback)
+  }
+
+  /** 重置生成器 */
+  reset(generator: () => Generator<any, T, any>) {
+    this.#destroy()
+    this.#generator = generator
   }
 
   pause() {

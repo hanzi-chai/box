@@ -1,12 +1,11 @@
+import type { Mabiao, MbItem, TextMabiao, TextPlatform } from "../types"
 import type { DuoduoMeta } from "./mabiao-meta"
 import * as utils from "@/libs/utils"
 import {
   createEmptyTextMabiao,
-  type Mabiao,
+
   MabiaoFormatError,
-  type MbItem,
-  type TextMabiao,
-  type TextPlatform,
+
 } from "../types"
 import logo from "./duoduo.jpg"
 import * as meta from "./mabiao-meta"

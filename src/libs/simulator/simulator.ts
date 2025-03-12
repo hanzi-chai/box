@@ -8,11 +8,12 @@
  */
 
 import type { Mabiao, MbItem } from "../schema"
+import type { SegValue, SegValuePunc } from "./types"
 import { KEYS_TO_LOWER, PUNCTUATIONS } from "@/libs/constants"
 import * as feel from "@/libs/feeling"
 import * as utils from "@/libs/utils"
 import { calcCollision, getMaxCodeLen, getMaxWordsLen, getSelectKeys } from "../schema"
-import { SegKind, type SegValue, type SegValuePunc } from "./types"
+import { SegKind } from "./types"
 
 // #region 读取码表
 

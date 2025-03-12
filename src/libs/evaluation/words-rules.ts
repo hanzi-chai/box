@@ -6,36 +6,6 @@ export interface WordsRuleMethod {
   }): string
 }
 
-/** 五笔造词规则 */
-export const ruleWubi: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Wubi)
-
-/** 两笔造词规则 */
-export const ruleErbi: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Erbi)
-
-/** 郑码造词规则 */
-export const ruleZhengma: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Zhengma)
-
-
-
-/** 用于select组件 */
-export const presetRules = [
-  {
-    label: "五笔",
-    value: ruleWubi,
-    example: "blgo"
-  },
-  {
-    label: "两笔",
-    value: ruleErbi,
-    example: "balg"
-  },
-  {
-    label: "郑码",
-    value: ruleZhengma,
-    example: "blig"
-  },
-].map((v, i) => ({ ...v, key: i }))
-
 const enum GeneralRuleKind {
   Wubi,
   Erbi,
@@ -68,6 +38,7 @@ function generalRule(words: string, hanziMap: HanziMap, kind: GeneralRuleKind) {
         case GeneralRuleKind.Zhengma:
           return firstCode(0) + twoCodes(1) + firstCode(2)
       }
+      break
     }
     default: {
       const lastIndex = wordsArray.length - 1
@@ -75,3 +46,31 @@ function generalRule(words: string, hanziMap: HanziMap, kind: GeneralRuleKind) {
     }
   }
 }
+
+/** 五笔造词规则 */
+export const ruleWubi: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Wubi)
+
+/** 两笔造词规则 */
+export const ruleErbi: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Erbi)
+
+/** 郑码造词规则 */
+export const ruleZhengma: WordsRuleMethod = (words, { hanziMap }) => generalRule(words, hanziMap, GeneralRuleKind.Zhengma)
+
+/** 用于select组件 */
+export const presetRules = [
+  {
+    label: "五笔",
+    value: ruleWubi,
+    example: "blgo",
+  },
+  {
+    label: "两笔",
+    value: ruleErbi,
+    example: "balg",
+  },
+  {
+    label: "郑码",
+    value: ruleZhengma,
+    example: "blig",
+  },
+].map((v, i) => ({ ...v, key: i }))

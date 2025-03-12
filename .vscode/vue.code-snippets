@@ -17,8 +17,8 @@
 	// }
 	"import vue": {
 		"scope": "javascript,typescript,vue",
-		"prefix": "imvue",
-		"body": "import {ref, shallowRef, watch, computed, onMounted, onUnmounted, provide, inject} from 'vue';"
+		"prefix": "imref",
+		"body": "import {ref} from 'vue';"
 	},
 	"import utils": {
 		"scope": "javascript,typescript,vue",
