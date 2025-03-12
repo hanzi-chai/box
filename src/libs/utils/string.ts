@@ -144,7 +144,7 @@ export function* genEachLineJump(src: string) {
   }
   line = quickTrimEnd(src.slice(last))
   if (line)
-    yield [src.slice(last), ++lineno] as const
+    yield [line, ++lineno] as const
 }
 
 /**

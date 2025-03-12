@@ -26,7 +26,7 @@ watchThrottled(content, async (c) => {
       <div class="flex gap-2">
         <ul class="grow-1 overflow-hidden text-nowrap">
           <li v-for="i in mb.items.slice(0, 20)" :key="i.ln">
-            <span class="text-bluegray-500">{{ i.cd }}</span>
+            <span class="text-indigo-700">{{ i.cd }}</span>
             <span class="ml-2 text-bluegray-800">{{ i.wd }}</span>
           </li>
         </ul>

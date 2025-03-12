@@ -88,6 +88,7 @@ function validate(raw: string): boolean {
   // Match table file header.
   if (text.startsWith("---config@"))
     return true
+  /* 尝试简单而快速一些
   for (const [line, lineno] of utils.genEachLineJump(text)) {
     if (lineno > 80)
       return true
@@ -101,6 +102,8 @@ function validate(raw: string): boolean {
       return false
   }
   return true
+   */
+  return false
 }
 
 // TODO: 其他平台转换

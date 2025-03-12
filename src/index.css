@@ -124,6 +124,11 @@ q {
   quotes: none;
 }
 
+:root {
+  --el-color-primary: #0284c7 !important;
+  --cn-font: MiSans, "MiSans L3", sans-serif, "TH-Tshyn-P0", "TH-Tshyn-P1", "TH-Tshyn-P2", "TH-Tshyn-P16";
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -151,8 +156,9 @@ body {
   /* Support for Firefox. */
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  font-family: "JetBrains Mono", "MiSans", "MiSans L3", "TH-Tshyn-P0", "TH-Tshyn-P1", "TH-Tshyn-P2", "TH-Tshyn-P16", sans-serif;
+  font-family: "JetBrains Mono", var(--cn-font);
 }
+
 
 input,
 button,
@@ -176,9 +182,7 @@ p {
   text-wrap: pretty;
 }
 
-:root{
-  --el-color-primary: #0284c7 !important;
-}
+
 
 /*
   Fallback layer. It's always recommended to include.

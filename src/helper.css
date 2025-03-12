@@ -1,3 +1,8 @@
 .font-misans {
-    font-family: "Misans", "MiSans L3", sans-serif;
+    font-family:  var(--cn-font);
+    font-weight: 400;
+}
+
+.font-jbmono {
+    font-family: "JetBrains Mono", var(--cn-font);
 }

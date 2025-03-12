@@ -149,7 +149,6 @@ function load(raw: string, title?: string) {
 
   // 解析码表内容
   const columns: string[] = headerObj.columns || ["text", "code"]
-  const columnsLen = columns.length
 
   const mbItemTmpl: MbItemRime = {
     wd: "",
@@ -163,16 +162,16 @@ function load(raw: string, title?: string) {
 
   const dictStartLineno = utils.countChar(raw.slice(0, end), "\n")
 
-  for (const [line, ln] of utils.genEachLineJump(raw.slice(end + 3))) {
+  for (const [line, ln] of utils.genEachLineJump(raw.slice(end + 4))) {
     const lineno = ln + dictStartLineno + 2
-    // 过滤注释行
+    // 过滤注释行和空行
     if (utils.firstNonSpace(line) === "#")
       continue
     const tmpMbItem: MbItemRime = { ...mbItemTmpl }
     tmpMbItem.meta = {}
     tmpMbItem.ln = lineno
-    const parts = utils.quickSplitByLength(line, "\t", columnsLen)
-    for (let i = 0; i < columnsLen; i++) {
+    const parts = utils.quickSplit(line, "\t")
+    for (let i = 0; i < parts.length; i++) {
       if (columns[i] === "text") {
         tmpMbItem.wd = parts[i]
         continue
@@ -199,8 +198,8 @@ function load(raw: string, title?: string) {
   return result
 }
 
+const columns3 = new Set(["text", "code", "weight"])
 function hasExtraColumns(columns: string[]) {
-  const columns3 = new Set(["text", "code", "weight"])
   for (const col of columns) {
     if (!columns3.has(col)) {
       return true
