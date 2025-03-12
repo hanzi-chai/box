@@ -60,7 +60,7 @@ async function readFromClipboard() {
       读取系统剪切板
     </ElButton>
   </template>
-  <template v-else>
+  <template v-else-if="strategyRef === 'textarea'">
     <ElInput v-model="text" type="textarea" input-style="white-space: nowrap;" :rows="10" placeholder="请输入……" spellcheck="false" />
   </template>
   <!-- 底部信息 -->

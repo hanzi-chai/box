@@ -1,11 +1,11 @@
-import { defineConfig, presetIcons, presetTypography, presetUno } from "unocss"
+import { defineConfig, presetIcons, presetTypography, presetWind3 } from "unocss"
 
 export default defineConfig({
     content: {
         filesystem: ["./src/**/*.vue"],
     },
     presets: [
-        presetUno(),
+        presetWind3(),
         presetTypography(),
         presetIcons({
             warn: true
