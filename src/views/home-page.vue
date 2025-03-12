@@ -6,14 +6,14 @@ const buildtime = import.meta.env.BUILD_TIME
   <div class="flex justify-center">
     <div class="flex flex-col items-center gap-lg">
       <RouterLink to="/simulator">
-        <ElButton size="large">
+        <el-button size="large">
           赛码器
-        </ElButton>
+        </el-button>
       </RouterLink>
       <RouterLink to="/simulator">
-        <ElButton size="large">
+        <el-button size="large">
           测评工具
-        </ElButton>
+        </el-button>
       </RouterLink>
       <div class="font-misans text-xs text-gray-400 decoration-none">
         Build time: {{ buildtime }}<br>
