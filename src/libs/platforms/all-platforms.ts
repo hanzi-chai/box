@@ -15,6 +15,10 @@ export const allTextPlatforms = [
   platSogo,
 ] as const
 
+export const allTextIdToImpl = Object.fromEntries(
+  allTextPlatforms.map(plat => [plat.id, plat]),
+)
+
 export type PlatformIds = "duoduo" | "rime" | "sogo" | "yong" | "jisu"
 
 // TODO: 极速赛码表格式 单单赛码表 chaifen.app的码表 冰凌
@@ -34,6 +38,7 @@ export function detectAndFillMabiao(raw: string, fileName: string) {
   if (!plat)
     throw new Error("无法识别的码表格式")
   const mb = plat.load(raw, fileName)
+
   Schema.getMaxCodeLen(mb)
   mb.cmLen = mb.cmLen ?? mb.maxCodeLen
   Schema.getSelectKeys(mb)

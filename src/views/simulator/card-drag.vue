@@ -8,14 +8,19 @@ defineProps<{
 }>()
 
 const e = defineEmits<{
-  dropFile: [content: string]
+  dropFile: [content: string, title: string]
   emptyClick: [next: () => void]
   clear: []
   set: []
   evaluate: []
 }>()
 
+defineExpose({
+  fail,
+})
+
 const content = ref("")
+const title = ref("")
 const isDrag = ref(false)
 const dropArea = ref<HTMLElement | null>(null)
 
@@ -41,7 +46,8 @@ function dragleave(e: DragEvent) {
 async function readFileFromFileList(fl?: FileList | null) {
   const fileContent = await utils.fileListDetectAndRead(fl)
   content.value = fileContent
-  e("dropFile", fileContent)
+  title.value = fl?.[0].name || ""
+  e("dropFile", fileContent, title.value)
 }
 
 async function drop(e: DragEvent) {
@@ -55,6 +61,12 @@ function next() {
   openEmptyDialog.value = false
   content.value = "我太懒了，不想动笔 😭"
   isDrag.value = false
+}
+
+function fail() {
+  openEmptyDialog.value = false
+  isDrag.value = false
+  content.value = ""
 }
 
 function onDelete() {
@@ -97,12 +109,14 @@ function onDelete() {
     <div v-else class="max-h-67 overflow-hidden">
       <!-- 默认插槽，展示基本信息 -->
       <slot>
-        <pre class="text-gray-700">{{ content }}</pre>
+        <pre class="text-gray-700">{{ content.slice(0, 800) }}</pre>
       </slot>
 
       <!-- 设置弹窗 -->
       <el-dialog v-model="openSetDialog">
-        <slot name="set" />
+        <div class="ma-2">
+          <slot name="set" />
+        </div>
       </el-dialog>
 
       <!-- 测评弹窗 -->

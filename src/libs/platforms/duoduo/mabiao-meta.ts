@@ -15,7 +15,7 @@ const sharpControlZi = new Set("固用辅次类序")
 export function validateDuoduoCodes(codes: string): boolean {
   const sharpSigIndex = codes.indexOf("#")
   if (sharpSigIndex === -1)
-    return sch.validateCodes(codes)
+    return sch.validateCodesInEquivalent(codes)
   const nextZi = codes[sharpSigIndex + 1]
   return sharpControlZi.has(nextZi)
 }
@@ -23,11 +23,11 @@ export function validateDuoduoCodes(codes: string): boolean {
 type CodesPair = [string, DuoduoMeta]
 export function parseDuoduoCodes(src: string) {
   if (!src.includes("#"))
-    return [sch.checkCodes(src), null] as const
+    return [sch.checkCodesAll(src), null] as const
   const srcTrim = utils.quickTrim(src)
 
   const srcSplit = utils.quickSplit(srcTrim, "#")
-  const result: CodesPair = [sch.checkCodes(srcSplit[0]), {}]
+  const result: CodesPair = [sch.checkCodesAll(srcSplit[0]), {}]
   const resultMeta = result[1]
   for (let i = 1; i < srcSplit.length; i++) {
     const element = srcSplit[i]

@@ -1,12 +1,20 @@
 <script setup lang="ts">
-import { allTextPlatforms } from "@/libs/platforms"
-import { ref } from "vue"
+import type { UnwrapRef } from "vue"
+import { ref, watch } from "vue"
+
+const emit = defineEmits<{
+  change: [form: UnwrapRef<typeof form>]
+}>()
 
 const form = ref({
   name: "",
   selectKeys: " 23456789",
   plat: "sogo",
   cmLen: 4,
+})
+
+watch(form, (n) => {
+  emit("change", n)
 })
 </script>
 
@@ -16,14 +24,7 @@ const form = ref({
       <ElInput v-model="form.name" />
     </ElFormItem>
     <ElFormItem label="码表格式">
-      <ElSelect v-model="form.plat" placeholder="请选择">
-        <ElOption v-for="item in allTextPlatforms" :key="item.id" :label="item.nameZh" :value="item.id">
-          <img :src="item.logo" class="mr-3 inline-block align-baseline" style="width: 1em; height: 1em;" :alt="`${item.nameZh}平台LOGO`">
-          <div class="inline-block">
-            {{ item.nameZh }}
-          </div>
-        </ElOption>
-      </ElSelect>
+      <SelectMabiaoPlatform v-model="form.plat" />
     </ElFormItem>
     <ElFormItem label="选重键">
       <ElInput v-model="form.selectKeys" />

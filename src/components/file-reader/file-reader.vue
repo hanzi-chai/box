@@ -14,6 +14,7 @@ const p = withDefaults(
   },
 )
 const text = defineModel({ default: "", required: true })
+const title = defineModel("title", { default: "", required: false })
 
 const kindName = p.kindName as string
 
@@ -31,11 +32,24 @@ watch(strategyRef, () => {
   text.value = ""
 })
 
+const fileEncoding = ["UTF-8", "UTF-16LE", "GB18030"]
+const fileEncodingSelected = ref(fileEncoding[0])
+
+/** 缓存文件对象，用于修改编码时重新解码 */
+let fileCache: File
 async function beforeUpload(file: File) {
-  text.value = await utils.blobDetectAndRead(file, file.name)
+  fileCache = file
+  title.value = file.name
+  fileEncodingSelected.value = await utils.blobDetectFileEncoding(file, file.name)
+  text.value = await utils.readBlob(file, fileEncodingSelected.value)
   return false
 }
 
+async function changeEncoding() {
+  if (!fileCache)
+    return
+  text.value = await utils.readBlob(fileCache, fileEncodingSelected.value)
+}
 async function readFromClipboard() {
   text.value = await utils.readStringFromClipboard()
 }
@@ -54,7 +68,16 @@ async function readFromClipboard() {
         拖动{{ kindName }}文件到此处，或<em>点击上传</em>
       </div>
     </ElUpload>
+
+    <ElForm class="mt-2" size="small">
+      <ElFormItem label="文件编码">
+        <ElSelect v-model="fileEncodingSelected" @change="changeEncoding">
+          <ElOption v-for="e in fileEncoding" :key="e" :label="e" :value="e" />
+        </ElSelect>
+      </ElFormItem>
+    </ElForm>
   </template>
+
   <template v-else-if="strategyRef === 'clip'">
     <ElButton type="primary" class="my-6 ml-16 shadow-lg" size="large" @click="readFromClipboard">
       读取系统剪切板

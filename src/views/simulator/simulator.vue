@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSetTitle } from "@/libs/hooks"
+import { MabiaoFormatError } from "@/libs/platforms"
 import { CaretRight } from "@element-plus/icons-vue"
 import { ElNotification } from "element-plus"
 import { onErrorCaptured } from "vue"
@@ -7,11 +8,20 @@ import CardArticle from "./card-article.vue"
 import CardMabiao from "./card-mabiao.vue"
 
 onErrorCaptured((err) => {
-  ElNotification({
-    title: "操作错误",
-    message: err.message,
-    type: "error",
-  })
+  if (err instanceof MabiaoFormatError) {
+    ElNotification({
+      title: `码表格式错误（第${err.ln}行）`,
+      message: err.message,
+      type: "error",
+    })
+  }
+  else {
+    ElNotification({
+      title: "操作错误",
+      message: err.message,
+      type: "error",
+    })
+  }
 })
 
 useSetTitle("赛码器")
@@ -51,8 +61,8 @@ useSetTitle("赛码器")
 
       <div class="grid grid-cols-2 m-auto max-w-screen-lg gap-5 p-4">
         <CardArticle class="col-span-2" />
-        <CardMabiao class="col-span-2 sm:col-span-1" />
-        <CardMabiao class="col-span-2 sm:col-span-1" />
+        <CardMabiao class="col-span-2 md:col-span-1" />
+        <CardMabiao class="col-span-2 md:col-span-1" />
       </div>
     </el-page-header>
   </ElScrollbar>
