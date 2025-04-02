@@ -126,6 +126,8 @@ q {
 
 :root {
   --el-color-primary: #0284c7 !important;
+  --el-transition-duration: .2s !important;
+  --el-transition-duration-fast: .1s !important;
   --cn-font: MiSans, "MiSans L3", sans-serif, "TH-Tshyn-P0", "TH-Tshyn-P1", "TH-Tshyn-P2", "TH-Tshyn-P16";
 }
 
