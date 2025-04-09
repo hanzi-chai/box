@@ -1,55 +1,82 @@
 /** 根据字频表数据测评, 即科学形码测评系统 */
 
 import type { Mabiao } from "@/libs/schema"
+import type { Ref } from "vue"
 import type { FreqMatrix, HanziMap } from "./share"
 import type { EvaluateItemHanzi, EvaluateLineHanzi } from "./types"
 import * as feel from "@/libs/feeling"
 import {
   getKeysSet,
-
   validateCodesInEquivalent,
 } from "@/libs/schema"
 import * as utils from "@/libs/utils"
 import * as R from "rambdax"
+import { ref } from "vue"
 import { fingerLoad } from "../feeling/finger-load"
 import * as share from "./share"
 
-export async function quickEvaluateHanzi(mb: Mabiao, tsv?: string) {
-  let freqTsv: FreqMatrix
-  if (tsv) {
-    freqTsv = share.parseFreqTsv(tsv).slice(0, 6000)
-    if (freqTsv.length < 6000)
-      throw new Error("字频数据不足6000行")
-  }
-  else {
-    freqTsv = (await import(/* webpackPrefetch: true */ "./hanzi-freq-data"))
-      .default
-  }
-  const singleHanziMap = share.singleHanziMapFromMb(
-    mb,
-    R.mapArray(v => v[0], freqTsv),
-  )
-  const evaluate_result = evaluateSections(freqTsv, singleHanziMap, mb)
+interface EvaluateHanziOptions {
+  mb: Mabiao
+  tsv?: string
+}
+export function useEvaluateHanzi(opt: EvaluateHanziOptions) {
+  const total = ref(0)
+  const progress = ref(0)
+  let evaluateRes: EvaluateLineHanzi[] | undefined
+  let usageRes: Record<string, number> | undefined
+  let finLoadRas: Record<string, number> | undefined
+  let abortFn: (() => void) | undefined
 
-  return {
-    evaluate: evaluate_result,
-    baseFinLoadRate: getBaseFinLoadRate(mb),
-    usage: utils.freqCountToFreq(share.getTotalUsage(evaluate_result)),
-  }
+  makeFreqMatrix(opt.tsv)
+    .then((freqMatrix) => {
+      total.value = freqMatrix.length
+
+      const singleHanziMap = share.singleHanziMapFromMb(
+        opt.mb,
+        R.mapArray(v => v[0], freqMatrix),
+        true,
+      )
+
+      const scheduler = new utils.AbortableScheduler(() => evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress))
+      abortFn = () => scheduler.abort()
+      return new Promise<EvaluateLineHanzi[]>((res) => {
+        scheduler.onresult = res
+        scheduler.run()
+      })
+    })
+    .then((result) => {
+      evaluateRes = result
+      usageRes = utils.freqCountToFreq(share.getTotalUsage(result))
+      finLoadRas = getBaseFinLoadRate(opt.mb)
+    })
+
+  return { total, progress, evaluateRes, usageRes, finLoadRate: finLoadRas, abortFn }
+}
+
+async function makeFreqMatrix(tsv?: string) {
+  if (!tsv)
+    return (await import(/* webpackPrefetch: true */ "./hanzi-freq-data")).default
+  const freqTsv = share.parseFreqTsv(tsv)
+  if (freqTsv.length < 6000)
+    throw new Error("字频数据不足6000行")
+  freqTsv.sort((a, b) => b[1] - a[1])
+  return freqTsv
 }
 
 /** 测评5个区间 */
-export function evaluateSections(
+export function* evaluateSections(
   matrix: FreqMatrix,
   singleHanzimap: HanziMap,
   mb: Mabiao,
+  progress: Ref<number>,
 ) {
   const sections = [
     [0, 300],
     [300, 500],
     [500, 1500],
     [1500, 3000],
-    [3000, 6000],
+    [3000, 4500],
+    [4500, 6000],
   ] as const
   const result: EvaluateLineHanzi[] = []
 
@@ -63,6 +90,8 @@ export function evaluateSections(
     const items: EvaluateLineHanzi["items"] = []
 
     for (let i = start; i < end; i++) {
+      yield i
+      progress.value = i - start
       const el = matrix[i]
       const [wd, freq] = el
       totalFreq += freq
@@ -79,10 +108,10 @@ export function evaluateSections(
 
       // 补齐选重键
       let selectKey = ""
-      const selectKeyLen = mb.selectKeys?.length
+      const selectKeyLen = mb.selectKeys?.length || 0
       if (mb.cmLen! > cdLen || collision > 1) {
-        const coll = Math.min(collision, selectKeyLen)
-        selectKey = mb.selectKeys?.[coll - 1]
+        const coll = collision > selectKeyLen ? selectKeyLen : collision
+        selectKey = mb.selectKeys?.[coll - 1] || ""
       }
 
       // 手指使用量(选重键)

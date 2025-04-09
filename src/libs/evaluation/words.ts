@@ -1,40 +1,63 @@
 import type { Mabiao } from "@/libs/schema"
-import type { FreqMatrix, HanziMap } from "./share"
+import type { Ref } from "vue"
 
+import type { FreqMatrix, HanziMap } from "./share"
 import type { EvaluateItemWords, EvaluateLineWords } from "./types"
+import type { WordsRuleMethod } from "./words-rules"
 import * as feel from "@/libs/feeling"
 import { validateCodesInEquivalent } from "@/libs/schema"
 import { freqCountToFreq } from "@/libs/utils"
+import * as utils from "@/libs/utils"
+import { ref } from "vue"
 import { CollisionCounter } from "../schema/collision-counter"
 import * as share from "./share"
+import { ruleWubi } from "./words-rules"
 
-/** 测评一个码表的组词性能 */
-export async function quickEvaluateWords(mb: Mabiao, tsv?: string) {
-  // 获取词频数据
-  let freqTsv: FreqMatrix
-  if (tsv) {
-    freqTsv = share.parseFreqTsv(tsv).slice(0, 60000)
-    if (freqTsv.length < 60000)
-      throw new Error("词频数据不足60000行")
-  }
-  else {
-    freqTsv = (await import(/* webpackPrefetch: true */ "./words-freq-data"))
-      .default
-  }
+interface EvaluateWordsOptions {
+  mb: Mabiao
+  tsv?: string
+  wordsRule?: WordsRuleMethod
+}
+export function useEvaluateWords(opt: EvaluateWordsOptions) {
+  const total = ref(0)
+  const progress = ref(0)
+  let evaluateRes: EvaluateLineWords[] | undefined
+  let usageRes: Record<string, number> | undefined
+  let abortFn: (() => void) | undefined
 
-  // TODO: 要留意词频的格式 数量 词语字数
-  // 获取单字码表
-  const singleHanziMap = share.singleHanziMapFromMb(
-    mb,
-    genEveryHanzi(freqTsv),
-    false,
-  )
-  // 测评词库
-  const evaluateResult = evaluateSections(freqTsv, singleHanziMap)
-  return {
-    evaluateResult,
-    usage: freqCountToFreq(share.getTotalUsage(evaluateResult)),
-  }
+  makeFreqMatrix(opt.tsv)
+    .then((freqMatrix) => {
+      total.value = freqMatrix.length
+
+      const singleHanziMap = share.singleHanziMapFromMb(
+        opt.mb,
+        genEveryHanzi(freqMatrix),
+        false,
+      )
+
+      const scheduler = new utils.AbortableScheduler(() => evaluateSections(freqMatrix, singleHanziMap, progress, opt.wordsRule))
+      abortFn = () => scheduler.abort()
+      return new Promise<EvaluateLineWords[]>((res) => {
+        scheduler.onresult = res
+        scheduler.run()
+      })
+    })
+    .then((result) => {
+      evaluateRes = result
+      usageRes = freqCountToFreq(share.getTotalUsage(result))
+    })
+
+  return { total, progress, evaluateRes, usageRes, abortFn }
+}
+
+async function makeFreqMatrix(tsv?: string) {
+  if (!tsv)
+    return (await import(/* webpackPrefetch: true */ "./words-freq-data")).default
+  const freqTsv = share.parseFreqTsv(tsv)
+  if (freqTsv.length < 60000)
+    throw new Error("词频数据不足60000行")
+  freqTsv.sort((a, b) => b[1] - a[1])
+  return freqTsv
 }
 
 function* genEveryHanzi(matrix: share.FreqMatrix) {
@@ -46,7 +69,7 @@ function* genEveryHanzi(matrix: share.FreqMatrix) {
 }
 
 /** 测评6个区间 */
-function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
+function* evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap, progress: Ref<number>, wordsRule: WordsRuleMethod = ruleWubi) {
   const wordsSections = [
     [0, 2000],
     [2000, 5000],
@@ -64,11 +87,14 @@ function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
     const usageHelpArray = share.createUsageHelpArray()
 
     for (let i = start; i < end; i++) {
+      yield i
+      progress.value = i - start
       const el = matrix[i]
       const [wd, freq] = el
       totalFreq += freq
 
-      const cd = makeCodeUnderWubi(hanzimap, wd)
+      const cd = wordsRule(wd, { hanziMap: hanzimap })
+
       // 缺字
       if (!cd) {
         items.push({ wd, freq, reFreq: 0, freqRank: i + 1 })
@@ -160,46 +186,4 @@ function evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap) {
     for (const it of e.items) it.reFreq = it.freq / totalFreq
   }
   return result
-}
-
-/** 五笔规则造词, 生成编码, 如果无法造词, 返回空字符串 */
-function makeCodeUnderWubi(hanzimap: HanziMap, words: string): string {
-  const wordsArray = [...words]
-  // 2 字词
-  if (wordsArray.length === 2) {
-    const cd1 = hanzimap.get(wordsArray[0])
-    if (!cd1)
-      return ""
-    const cd2 = hanzimap.get(wordsArray[1])
-    if (!cd2)
-      return ""
-    return cd1.item.cd.slice(0, 2) + cd2.item.cd.slice(0, 2)
-  }
-  // 3 字词
-  if (wordsArray.length === 3) {
-    const cd1 = hanzimap.get(wordsArray[0])
-    if (!cd1)
-      return ""
-    const cd2 = hanzimap.get(wordsArray[1])
-    if (!cd2)
-      return ""
-    const cd3 = hanzimap.get(wordsArray[2])
-    if (!cd3)
-      return ""
-    return cd1.item.cd.slice(0, 2) + cd2.item.cd[0] + cd3.item.cd[0]
-  }
-  // 多字词
-  const cd1 = hanzimap.get(wordsArray[0])
-  if (!cd1)
-    return ""
-  const cd2 = hanzimap.get(wordsArray[1])
-  if (!cd2)
-    return ""
-  const cd3 = hanzimap.get(wordsArray[2])
-  if (!cd3)
-    return ""
-  const cd4 = hanzimap.get(wordsArray.at(-1)!)
-  if (!cd4)
-    return ""
-  return cd1.item.cd[0] + cd2.item.cd[0] + cd3.item.cd[0] + cd4.item.cd[0]
 }
