@@ -50,7 +50,7 @@ export function useEvaluateHanzi(opt: EvaluateHanziOptions) {
       finLoadRas = getBaseFinLoadRate(opt.mb)
     })
 
-  return { total, progress, evaluateRes, usageRes, finLoadRate: finLoadRas, abortFn }
+  return { total, progress, evaluateRes, usageRes, finLoadRas, abortFn }
 }
 
 async function makeFreqMatrix(tsv?: string) {

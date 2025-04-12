@@ -3,9 +3,11 @@ import { useSetTitle } from "@/libs/hooks"
 import { MabiaoFormatError } from "@/libs/platforms"
 import { CaretRight } from "@element-plus/icons-vue"
 import { ElNotification } from "element-plus"
-import { onErrorCaptured } from "vue"
+import { onErrorCaptured, ref } from "vue"
 import CardArticle from "./card-article.vue"
 import CardMabiao from "./card-mabiao.vue"
+
+import HelpArticle from "./help-article.vue"
 
 onErrorCaptured((err) => {
   if (err instanceof MabiaoFormatError) {
@@ -25,6 +27,8 @@ onErrorCaptured((err) => {
 })
 
 useSetTitle("赛码器")
+
+const helpDialog = ref(false)
 </script>
 
 <template>
@@ -46,7 +50,7 @@ useSetTitle("赛码器")
       <template #extra>
         <div class="flex items-center justify-center">
           <div class="hidden sm:block">
-            <el-button>
+            <el-button @click="helpDialog = true">
               说明
             </el-button>
             <el-button>
@@ -66,4 +70,9 @@ useSetTitle("赛码器")
       </div>
     </el-page-header>
   </ElScrollbar>
+  <ElDialog v-model="helpDialog" title="赛码器工具说明" destroy-on-close>
+    <div class="prose">
+      <HelpArticle />
+    </div>
+  </ElDialog>
 </template>
