@@ -3,7 +3,7 @@ import type { Mabiao } from "@/libs/schema"
 import { allTextIdToImpl, detectAndFillMabiao } from "@/libs/platforms"
 import { watchThrottled } from "@vueuse/core"
 import { ref } from "vue"
-import DragCard from "./card-drag.vue"
+import DragCard from "../card-drag.vue"
 
 const content = ref("")
 const dragCardRef = ref<InstanceType<typeof DragCard>>()

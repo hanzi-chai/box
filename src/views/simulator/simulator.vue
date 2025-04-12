@@ -4,10 +4,9 @@ import { MabiaoFormatError } from "@/libs/platforms"
 import { CaretRight } from "@element-plus/icons-vue"
 import { ElNotification } from "element-plus"
 import { onErrorCaptured, ref } from "vue"
-import CardArticle from "./card-article.vue"
-import CardMabiao from "./card-mabiao.vue"
-
-import HelpArticle from "./help-article.vue"
+import CardArticle from "./article/entry-card.vue"
+import HelpArticle from "./help-message.vue"
+import CardMabiao from "./mabiao/entry-card.vue"
 
 onErrorCaptured((err) => {
   if (err instanceof MabiaoFormatError) {

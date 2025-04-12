@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue"
-import DragCard from "./card-drag.vue"
+import DragCard from "../card-drag.vue"
 
 const content = ref("")
 const title = ref("")
