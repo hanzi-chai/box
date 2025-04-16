@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { twoLevelComputed } from "@/libs/hooks"
 import { ref } from "vue"
 import DragCard from "../card-drag.vue"
+import SetDialog from "./dialog-set.vue"
 
 const content = ref("")
+const reformedContent = twoLevelComputed(content)
 const title = ref("")
 </script>
 
@@ -12,11 +15,10 @@ const title = ref("")
       {{ title }}
     </h2>
     <p class="ma-3 max-h-49 overflow-hidden text-sm text-bluegray-600">
-      {{ content.slice(0, 800) }}
-      <span v-if="content.length > 800" class="mx-2 text-blue">……</span>
+      {{ reformedContent.slice(0, 2000) }}
     </p>
     <p class="ma-2 mr-6 text-right text-sm text-slate-800">
-      共有 {{ content.length }} 个字符
+      共有 {{ reformedContent.length }} 个字符
     </p>
 
     <template #empty="{ next }">
@@ -29,7 +31,7 @@ const title = ref("")
     </template>
 
     <template #set>
-      TODO 😎
+      <SetDialog :article="content" @result="v => reformedContent = v " />
     </template>
 
     <template #evaluate>

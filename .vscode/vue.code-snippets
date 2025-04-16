@@ -38,7 +38,7 @@
 	"import vueuse": {
 		"scope": "javascript,typescript,vue",
 		"prefix": "imvueuse",
-		"body": "import { ${1:watchThrottled} } from '@vueuse/core';"
+		"body": "import { ${1:watchDebounced} } from '@vueuse/core';"
 	},
 	"Pinia Options Store Boilerplate": {
 		"scope": "javascript,typescript",

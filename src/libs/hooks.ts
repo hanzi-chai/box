@@ -1,4 +1,5 @@
-import { nextTick, onMounted, onUnmounted } from "vue"
+import type { Ref } from "vue"
+import { nextTick, onMounted, onUnmounted, ref, toValue, watch } from "vue"
 
 /** 组件卸载时会修改回原来的 */
 export function useSetTitle(newtitle?: string) {
@@ -35,4 +36,16 @@ export function useAbortable(opt: AbortableProps) {
       }
     },
   ] as const
+}
+
+/**
+ * 返回一个响应式对象。
+ * 同时会侦听一个对象，如果它改动了，返回的对象会立即修改。
+ */
+export function twoLevelComputed<T>(watchObj: Ref<T>): Ref<T> {
+  const b = ref(structuredClone(toValue(watchObj))) as Ref<T>
+  watch(watchObj, (o) => {
+    b.value = o
+  })
+  return b
 }
