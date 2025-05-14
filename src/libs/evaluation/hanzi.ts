@@ -11,7 +11,7 @@ import {
 } from "@/libs/schema"
 import * as utils from "@/libs/utils"
 import * as R from "rambdax"
-import { ref } from "vue"
+import { ref, shallowReactive } from "vue"
 import { fingerLoad } from "../feeling/finger-load"
 import * as share from "./share"
 
@@ -22,10 +22,12 @@ interface EvaluateHanziOptions {
 export function useEvaluateHanzi(opt: EvaluateHanziOptions) {
   const total = ref(0)
   const progress = ref(0)
-  let evaluateRes: EvaluateLineHanzi[] | undefined
-  let usageRes: Record<string, number> | undefined
-  let finLoadRas: Record<string, number> | undefined
-  let abortFn: (() => void) | undefined
+  const result = shallowReactive({
+    eval: [] as EvaluateLineHanzi[],
+    usage: {} as Record<string, number>,
+    finLoad: {} as Record<string, number>,
+    abortFn: null as (() => void) | null,
+  })
 
   makeFreqMatrix(opt.tsv)
     .then((freqMatrix) => {
@@ -38,19 +40,21 @@ export function useEvaluateHanzi(opt: EvaluateHanziOptions) {
       )
 
       const scheduler = new utils.AbortableScheduler(() => evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress))
-      abortFn = () => scheduler.abort()
+      result.abortFn = () => scheduler.abort()
       return new Promise<EvaluateLineHanzi[]>((res) => {
         scheduler.onresult = res
         scheduler.run()
       })
     })
-    .then((result) => {
-      evaluateRes = result
-      usageRes = utils.freqCountToFreq(share.getTotalUsage(result))
-      finLoadRas = getBaseFinLoadRate(opt.mb)
+    .then((res) => {
+      result.eval = res
+      result.usage = utils.freqCountToFreq(share.getTotalUsage(res))
+      result.finLoad = getBaseFinLoadRate(opt.mb)
+
+      return result
     })
 
-  return { total, progress, evaluateRes, usageRes, finLoadRas, abortFn }
+  return { total, progress, result }
 }
 
 async function makeFreqMatrix(tsv?: string) {
@@ -91,7 +95,7 @@ export function* evaluateSections(
 
     for (let i = start; i < end; i++) {
       yield i
-      progress.value = i - start
+      progress.value = i + 1
       const el = matrix[i]
       const [wd, freq] = el
       totalFreq += freq

@@ -91,7 +91,7 @@ function onDelete() {
       </p>
     </div>
     <!-- 打开文件的对话框 -->
-    <el-dialog v-model="openEmptyDialog" width="20rem">
+    <el-dialog v-model="openEmptyDialog" width="20rem" destroy-on-close>
       <slot name="empty" :next />
     </el-dialog>
     <div
@@ -113,14 +113,14 @@ function onDelete() {
       </slot>
 
       <!-- 设置弹窗 -->
-      <el-dialog v-model="openSetDialog">
+      <el-dialog v-model="openSetDialog" destroy-on-close>
         <div class="ma-2">
           <slot name="set" />
         </div>
       </el-dialog>
 
       <!-- 测评弹窗 -->
-      <el-dialog v-model="openEvaluateDialog" fullscreen :modal="false">
+      <el-dialog v-model="openEvaluateDialog" fullscreen :modal="false" destroy-on-close>
         <slot name="evaluate" />
       </el-dialog>
       <div class="absolute inset-x-0 bottom-0 flex">

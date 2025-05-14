@@ -25,7 +25,7 @@ export type FreqMatrix = [string, number][]
 
 export function parseFreqTsv(tsv: string): FreqMatrix {
   const matrix = utils.parseTsv(tsv)
-  const r: FreqMatrix = Array.from({ length: matrix.length })
+  const r: FreqMatrix = Array(matrix.length)
   for (let i = 0; i < matrix.length; i++) {
     const element = matrix[i]
     const freq = Number.parseInt(element[1])

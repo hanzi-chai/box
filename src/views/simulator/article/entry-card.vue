@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { twoLevelComputed } from "@/libs/hooks"
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import DragCard from "../card-drag.vue"
 import SetDialog from "./dialog-set.vue"
+
+const emits = defineEmits<{
+  content: [content: string, title: string]
+}>()
 
 const content = ref("")
 const reformedContent = twoLevelComputed(content)
 const title = ref("")
+
+watch([reformedContent, title], (v) => {
+  emits("content", v[0], v[1])
+})
 </script>
 
 <template>

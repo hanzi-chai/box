@@ -2,8 +2,13 @@
 import type { Mabiao } from "@/libs/schema"
 import { allTextIdToImpl, detectAndFillMabiao } from "@/libs/platforms"
 import { watchThrottled } from "@vueuse/core"
-import { ref } from "vue"
+import { ref, watch } from "vue"
 import DragCard from "../card-drag.vue"
+import EvaluateDialog from "./dialog-eval.vue"
+
+const emits = defineEmits<{
+  content: [content: Mabiao]
+}>()
 
 const content = ref("")
 const dragCardRef = ref<InstanceType<typeof DragCard>>()
@@ -18,6 +23,10 @@ watchThrottled(content, async (c) => {
     throw e
   }
 }, { throttle: 300 })
+
+watch(mb, (v) => {
+  emits("content", v!)
+})
 </script>
 
 <template>
@@ -77,6 +86,13 @@ watchThrottled(content, async (c) => {
           <WordsRuleButton />
         </ElFormItem>
       </ElForm>
+    </template>
+
+    <template #evaluate>
+      <div v-if="!mb" class="text-center font-size-xl text-red-500">
+        oops，怎么会缺失码表呢？😭
+      </div>
+      <EvaluateDialog v-else :mb="mb" />
     </template>
   </DragCard>
 </template>
