@@ -31,7 +31,10 @@ export function functionBody(fn: any) {
   return str.slice(str.indexOf("{") + 1, str.lastIndexOf("}"))
 }
 
-/** 使用 requestIdleCallback 实现的可中断的调度器，构建时传入一个生成器 */
+/**
+ * 使用 requestIdleCallback 实现的可中断的调度器，构建时传入一个生成器.
+ * 它可以暂停，再继续。但如果你不需要这么复杂的功能，直接使用 runGeneratorInIdle 即可。
+ */
 export class AbortableScheduler<T> {
   #generator: () => Generator<any, T, any>
   /** 如果暂停了，会记录当前的 Generator 状态 */
@@ -41,6 +44,7 @@ export class AbortableScheduler<T> {
   #aborted = false
 
   onresult: (result: T) => void = () => { }
+  onerror: (err: Error) => void = () => { }
 
   #destroy() {
     if (this.#idle !== null) {
@@ -71,9 +75,16 @@ export class AbortableScheduler<T> {
           this.#idle = null
           return
         }
-        const n = gen.next()
-        if (n.done) {
-          this.onresult(n.value)
+        try {
+          const n = gen.next()
+          if (n.done) {
+            this.onresult(n.value)
+            this.#destroy()
+            return
+          }
+        }
+        catch (err) {
+          this.onerror(err as Error)
           this.#destroy()
           return
         }
@@ -96,4 +107,34 @@ export class AbortableScheduler<T> {
   abort() {
     this.#aborted = true
   }
+}
+/**  非堵塞地运行一个生成器，可以中断运行。 */
+export function runGeneratorInIdle<T>(generator: Generator<any, T, any> | (() => Generator<any, T, any>), abortController?: AbortController) {
+  const g = typeof generator === "function" ? generator() : generator
+  var idle = 0
+  return new Promise<T>((resolve, reject) => {
+    const idleCallback = (deadline: IdleDeadline) => {
+      while (deadline.timeRemaining() > 0) {
+        if (abortController?.signal?.aborted) {
+          cancelIdleCallback(idle)
+          reject(new Error(`主动中止 ${abortController.signal.reason}`))
+          return
+        }
+        try {
+          const n = g.next()
+          if (n.done) {
+            cancelIdleCallback(idle)
+            resolve(n.value)
+            return
+          }
+        }
+        catch (err) {
+          reject(err)
+          return
+        }
+      }
+      idle = requestIdleCallback(idleCallback)
+    }
+    idle = requestIdleCallback(idleCallback)
+  })
 }

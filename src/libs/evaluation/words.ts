@@ -1,14 +1,14 @@
-import type { Mabiao } from "@/libs/schema"
 import type { Ref } from "vue"
-
 import type { FreqMatrix, HanziMap } from "./share"
+
 import type { EvaluateItemWords, EvaluateLineWords } from "./types"
 import type { WordsRuleMethod } from "./words-rules"
+import type { Mabiao } from "@/libs/schema"
+import { ref, shallowReactive } from "vue"
 import * as feel from "@/libs/feeling"
 import { validateCodesInEquivalent } from "@/libs/schema"
 import { freqCountToFreq } from "@/libs/utils"
 import * as utils from "@/libs/utils"
-import { ref } from "vue"
 import { CollisionCounter } from "../schema/collision-counter"
 import * as share from "./share"
 import { ruleWubi } from "./words-rules"
@@ -21,9 +21,11 @@ interface EvaluateWordsOptions {
 export function useEvaluateWords(opt: EvaluateWordsOptions) {
   const total = ref(0)
   const progress = ref(0)
-  let evaluateRes: EvaluateLineWords[] | undefined
-  let usageRes: Record<string, number> | undefined
-  let abortFn: (() => void) | undefined
+  const result = shallowReactive({
+    eval: [] as EvaluateLineWords[],
+    usage: {} as Record<string, number>,
+    abortFn: null as (() => void) | null,
+  })
 
   makeFreqMatrix(opt.tsv)
     .then((freqMatrix) => {
@@ -34,20 +36,19 @@ export function useEvaluateWords(opt: EvaluateWordsOptions) {
         genEveryHanzi(freqMatrix),
         false,
       )
-
-      const scheduler = new utils.AbortableScheduler(() => evaluateSections(freqMatrix, singleHanziMap, progress, opt.wordsRule))
-      abortFn = () => scheduler.abort()
-      return new Promise<EvaluateLineWords[]>((res) => {
-        scheduler.onresult = res
-        scheduler.run()
-      })
+      const controller = new AbortController()
+      const scheduler = utils.runGeneratorInIdle(evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress), controller)
+      result.abortFn = () => {
+        controller.abort()
+      }
+      return scheduler
     })
-    .then((result) => {
-      evaluateRes = result
-      usageRes = freqCountToFreq(share.getTotalUsage(result))
+    .then((r) => {
+      result.eval = r
+      result.usage = freqCountToFreq(share.getTotalUsage(r))
     })
 
-  return { total, progress, evaluateRes, usageRes, abortFn }
+  return { total, progress, result }
 }
 
 async function makeFreqMatrix(tsv?: string) {
@@ -88,7 +89,7 @@ function* evaluateSections(matrix: FreqMatrix, hanzimap: HanziMap, progress: Ref
 
     for (let i = start; i < end; i++) {
       yield i
-      progress.value = i - start
+      progress.value = i + 1
       const el = matrix[i]
       const [wd, freq] = el
       totalFreq += freq

@@ -1,17 +1,17 @@
 /** 根据字频表数据测评, 即科学形码测评系统 */
 
-import type { Mabiao } from "@/libs/schema"
 import type { Ref } from "vue"
 import type { FreqMatrix, HanziMap } from "./share"
 import type { EvaluateItemHanzi, EvaluateLineHanzi } from "./types"
+import type { Mabiao } from "@/libs/schema"
+import * as R from "rambdax"
+import { ref, shallowReactive } from "vue"
 import * as feel from "@/libs/feeling"
 import {
   getKeysSet,
   validateCodesInEquivalent,
 } from "@/libs/schema"
 import * as utils from "@/libs/utils"
-import * as R from "rambdax"
-import { ref, shallowReactive } from "vue"
 import { fingerLoad } from "../feeling/finger-load"
 import * as share from "./share"
 
@@ -39,21 +39,18 @@ export function useEvaluateHanzi(opt: EvaluateHanziOptions) {
         true,
       )
 
-      const scheduler = new utils.AbortableScheduler(() => evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress))
-      result.abortFn = () => scheduler.abort()
-      return new Promise<EvaluateLineHanzi[]>((res) => {
-        scheduler.onresult = res
-        scheduler.run()
-      })
+      const controller = new AbortController()
+      const scheduler = utils.runGeneratorInIdle(evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress), controller)
+      result.abortFn = () => {
+        controller.abort()
+      }
+      return scheduler
     })
     .then((res) => {
       result.eval = res
       result.usage = utils.freqCountToFreq(share.getTotalUsage(res))
       result.finLoad = getBaseFinLoadRate(opt.mb)
-
-      return result
     })
-
   return { total, progress, result }
 }
 
