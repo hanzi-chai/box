@@ -28,7 +28,6 @@ export default defineConfig({
       plugins: [
         VueComponents({
           extensions: ["vue", "md"],
-          include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
           dts: "src/components.d.ts",
           resolvers: [ElementPlusResolver()],
         }),
@@ -46,12 +45,12 @@ export default defineConfig({
 function beijingDate() {
   // 创建一个 Intl.DateTimeFormat 对象，指定时区为 Asia/Shanghai
   const formatter = new Intl.DateTimeFormat("zh-CN", {
-    timeZone: 'Asia/Shanghai',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
   })
   // 格式化日期为北京时间
   return formatter.format(new Date())
