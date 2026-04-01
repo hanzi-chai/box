@@ -10,6 +10,10 @@ test("combo =,", () => {
   const oo = getMagic("=,")
   expect(c.magicEquivalentTen(oo)).toBe(26)
 })
+test("combo g_", () => {
+  const oo = getMagic("g ")
+  expect(c.magicEquivalentTen(oo)).toBe(14)
+})
 
 test("combo ak", () => {
   const ak = getMagic("ak")

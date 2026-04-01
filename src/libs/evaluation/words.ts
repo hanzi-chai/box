@@ -37,7 +37,7 @@ export function useEvaluateWords(opt: EvaluateWordsOptions) {
         false,
       )
       const controller = new AbortController()
-      const scheduler = utils.runGeneratorInIdle(evaluateSections(freqMatrix, singleHanziMap, opt.mb, progress), controller)
+      const scheduler = utils.runGeneratorInIdle(evaluateSections(freqMatrix, singleHanziMap, progress), controller)
       result.abortFn = () => {
         controller.abort()
       }

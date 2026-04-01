@@ -56,5 +56,6 @@
     "postcss"
   ],
   "eslint.enable": true,
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "Codegeex.RepoIndex": true
 }
